@@ -19,3 +19,4 @@ Route::get('/wut', function()
 
 Route::get('/', 'HomeController@showWelcome');
 Route::get('/start-broadcast', 'HomeController@broadcast');
+Route::get('/service/message', 'ServiceController@message');

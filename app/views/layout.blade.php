@@ -629,7 +629,19 @@
 <script type='text/javascript' src='assets/plugins/charts-flot/jquery.flot.resize.min.js'></script> 
 <script type='text/javascript' src='assets/plugins/charts-flot/jquery.flot.orderBars.min.js'></script> 
 <script type='text/javascript' src='assets/js/placeholdr.js'></script> 
-<script type='text/javascript' src='assets/js/application.js'></script> 
+<script type='text/javascript' src='assets/js/application.js'></script>
+<script type="text/javascript" src="http://<?php echo Config::get('custom.server'); ?>:<?php echo Config::get('custom.socket_port'); ?>/socket.io/socket.io.js"></script>
+<script>
+window.onload = function()
+{
+    var socket = io.connect('http://<?php echo Config::get('custom.server'); ?>:<?php echo Config::get('custom.socket_port'); ?>');
+    socket.on('update', function(data) {
+        var time = data.minutes + 'm ' + data.seconds + 's';
+	console.log(time);
+        //document.querySelector('.time').innerHTML = time;
+    });
+}
+</script>
 
 </body>
 </html>
