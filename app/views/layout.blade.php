@@ -11,15 +11,9 @@
     <!-- <link href="assets/less/styles.less" rel="stylesheet/less" media="all"> -->
     <link rel="stylesheet" href="assets/css/styles.min.css">
     <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600' rel='stylesheet' type='text/css'>
-
-	 
-        <link href='assets/demo/variations/default.css' rel='stylesheet' type='text/css' media='all' id='styleswitcher'> 
-    
-            <link href='assets/demo/variations/default.css' rel='stylesheet' type='text/css' media='all' id='headerswitcher'> 
-    
-
+	<link href='assets/demo/variations/default.css' rel='stylesheet' type='text/css' media='all' id='styleswitcher'> 
+    <link href='assets/demo/variations/default.css' rel='stylesheet' type='text/css' media='all' id='headerswitcher'> 
 	<!-- <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'> -->
-
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries. Placeholdr.js enables the placeholder attribute -->
 	<!--[if lt IE 9]>
         <link rel="stylesheet" href="assets/css/ie8.css">
@@ -29,13 +23,12 @@
 	<![endif]-->
 
 	<!-- The following CSS are included as plugins and can be removed if unused-->
-
-<link rel='stylesheet' type='text/css' href='assets/plugins/form-daterangepicker/daterangepicker-bs3.css' /> 
-<link rel='stylesheet' type='text/css' href='assets/plugins/fullcalendar/fullcalendar.css' /> 
-<link rel='stylesheet' type='text/css' href='assets/plugins/form-markdown/css/bootstrap-markdown.min.css' /> 
-<link rel='stylesheet' type='text/css' href='assets/plugins/codeprettifier/prettify.css' /> 
-<link rel='stylesheet' type='text/css' href='assets/plugins/form-toggle/toggles.css' /> 
-
+	<link rel='stylesheet' type='text/css' href='assets/plugins/form-daterangepicker/daterangepicker-bs3.css' /> 
+	<link rel='stylesheet' type='text/css' href='assets/plugins/fullcalendar/fullcalendar.css' /> 
+	<link rel='stylesheet' type='text/css' href='assets/plugins/form-markdown/css/bootstrap-markdown.min.css' /> 
+	<link rel='stylesheet' type='text/css' href='assets/plugins/codeprettifier/prettify.css' /> 
+	<link rel='stylesheet' type='text/css' href='assets/plugins/form-toggle/toggles.css' /> 
+	<link rel="stylesheet" href="assets/css/general.css">
 <!-- <script type="text/javascript" src="assets/js/less.js"></script> -->
 </head>
 
@@ -604,6 +597,29 @@
 
 </div> <!-- page-container -->
 
+<div class="modal" id="identify">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+				<h4 class="modal-title">Identify Yourself</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal">
+					<div class="form-group">
+						<div class="">
+							<input type="text" class="form-control" id="username" placeholder="Enter Your Name">
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary">Continue &raquo;</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <!--
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
@@ -634,22 +650,24 @@
 <script>
 window.onload = function()
 {
-    /*
-    var socket = io.connect('http://<?php echo Config::get('custom.server'); ?>:<?php echo Config::get('custom.socket_port'); ?>');
-    console.log('test');
-    socket.on('update', function(data) {
-	console.log('connected');
-        var time = data.minutes + 'm ' + data.seconds + 's';
-	console.log(time);
-        //document.querySelector('.time').innerHTML = time;
-    });
-    */
-    var socket = io.connect('http://<?php echo Config::get('custom.server'); ?>:<?php echo Config::get('custom.socket_port'); ?>');
+	
+	var username = '';
+	
+	$('#identify').modal({show: true, keyboard: false, backdrop: 'static'});
+	$('#identify form').submit(function(){ return false; })
+	$('#identify button').click(function(){
+		username = $('#identify input').val();
+		console.log(username);
+		$('#identify').modal('hide');
+	})
+	
+    //var socket = io.connect('http://<?php echo Config::get('custom.server'); ?>:<?php echo Config::get('custom.socket_port'); ?>');
+	/*
     socket.on('update', function (data) {
-	console.log('woot');
-	console.log(data);
-	//socket.emit('my other event', { my: 'data' });
+		console.log('woot');
+		console.log(data);
     });
+	*/
 }
 </script>
 
