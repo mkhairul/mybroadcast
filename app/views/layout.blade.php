@@ -634,11 +634,21 @@
 <script>
 window.onload = function()
 {
+    /*
     var socket = io.connect('http://<?php echo Config::get('custom.server'); ?>:<?php echo Config::get('custom.socket_port'); ?>');
+    console.log('test');
     socket.on('update', function(data) {
+	console.log('connected');
         var time = data.minutes + 'm ' + data.seconds + 's';
 	console.log(time);
         //document.querySelector('.time').innerHTML = time;
+    });
+    */
+    var socket = io.connect('http://<?php echo Config::get('custom.server'); ?>:<?php echo Config::get('custom.socket_port'); ?>');
+    socket.on('update', function (data) {
+	console.log('woot');
+	console.log(data);
+	//socket.emit('my other event', { my: 'data' });
     });
 }
 </script>
