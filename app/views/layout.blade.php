@@ -656,17 +656,19 @@ window.onload = function()
 	$('#identify').modal({show: true, keyboard: false, backdrop: 'static'});
 	$('#identify form').submit(function(){ return false; })
 	$('#identify button').click(function(){
-		username = $('#identify input').val();
-		console.log(username);
-		$('#identify').modal('hide');
+	    username = $('#identify input').val();
+	    console.log(username);
+	    $('#identify').modal('hide');
+	    // join the room
+	    $.post('<?php echo Request::root(); ?>/service/joinRoom');
 	})
 	
-    //var socket = io.connect('http://<?php echo Config::get('custom.server'); ?>:<?php echo Config::get('custom.socket_port'); ?>');
+	//var socket = io.connect('http://<?php echo Config::get('custom.server'); ?>:<?php echo Config::get('custom.socket_port'); ?>');
 	/*
-    socket.on('update', function (data) {
-		console.log('woot');
-		console.log(data);
-    });
+	socket.on('update', function (data) {
+	    console.log('woot');
+	    console.log(data);
+	});
 	*/
 }
 </script>

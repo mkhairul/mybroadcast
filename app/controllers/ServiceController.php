@@ -56,5 +56,10 @@ class ServiceController extends Controller {
             $connection->close();
             return json_encode(array('status' => 'ok'));
         }
+        
+        public function joinRoom()
+        {
+            return Response::json(array('status' => 'ok'), 200);
+        }
 	
 }
