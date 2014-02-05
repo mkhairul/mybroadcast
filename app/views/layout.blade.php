@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Avant</title>
+	<title></title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="Avant">
-	<meta name="author" content="The Red Team">
+	<meta name="description" content="">
+	<meta name="author" content="mkhairul">
 
     <!-- <link href="assets/less/styles.less" rel="stylesheet/less" media="all"> -->
     <link rel="stylesheet" href="assets/css/styles.min.css">
@@ -33,7 +33,6 @@
 </head>
 
 <body class=" ">
-
 
     <div id="headerbar">
         <div class="container">
@@ -112,7 +111,7 @@
         <a id="rightmenu-trigger" class="pull-right" data-toggle="tooltip" data-placement="bottom" title="Toggle Right Sidebar"></a>
 
         <div class="navbar-header pull-left">
-            <a class="navbar-brand" href="index.htm">Avant</a>
+            <a class="navbar-brand" href="index.htm"></a>
         </div>
 
         <ul class="nav navbar-nav pull-right toolbar">
@@ -570,25 +569,23 @@
             </div>
         </div>
         <!-- END RIGHTBAR -->
-<div id="page-content">
-    <div id='wrap'>
-        <div id="page-heading">
-            <ol class="breadcrumb">
-                <li class='active'><a href="index.php">@yield('content')</a></li>
-            </ol>
-        </div>
-
-        <div class="container">
-            
-
-        </div> <!-- container -->
-    </div> <!--wrap -->
-</div> <!-- page-content -->
+	<div id="page-content">
+		<div id='wrap'>
+			<div class="container">
+				<div class="row">
+					
+				</div>
+				<div class="row main-content">
+					
+				</div>
+			</div> <!-- container -->
+		</div> <!--wrap -->
+	</div> <!-- page-content -->
 
     <footer role="contentinfo">
         <div class="clearfix">
             <ul class="list-unstyled list-inline">
-                <li>AVANT &copy; 2013</li>
+                <li>something</li>
                 <!--li class="pull-right"><a href="javascript:;" id="back-to-top">Top <i class="fa fa-arrow-up"></i></a></li-->
                 <button class="pull-right btn btn-inverse-alt btn-xs hidden-print" id="back-to-top" style="margin-top: -1px; text-transform: uppercase;"><i class="fa fa-arrow-up"></i></button>
             </ul>
@@ -620,6 +617,17 @@
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+
+<div class="modal" id="loading">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				<img src="assets/img/ajax-loader.gif" /> Loading..
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <!--
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
@@ -646,24 +654,47 @@
 <script type='text/javascript' src='assets/plugins/charts-flot/jquery.flot.orderBars.min.js'></script> 
 <script type='text/javascript' src='assets/js/placeholdr.js'></script> 
 <script type='text/javascript' src='assets/js/application.js'></script>
+<script type='text/javascript' src='assets/js/pubsub.js'></script>
+<script type='text/javascript' src='assets/js/moment.min.js'></script>
 <script type="text/javascript" src="http://<?php echo Config::get('custom.server'); ?>:<?php echo Config::get('custom.socket_port'); ?>/socket.io/socket.io.js"></script>
 <script>
+var username = '';
 window.onload = function()
 {
+	var socket = io.connect('http://<?php echo Config::get('custom.server'); ?>:<?php echo Config::get('custom.socket_port'); ?>');
 	
-	var username = '';
-	
+	$('#loading').modal({show: false, keyboard: false, backdrop: 'static'});
 	$('#identify').modal({show: true, keyboard: false, backdrop: 'static'});
 	$('#identify form').submit(function(){ return false; })
 	$('#identify button').click(function(){
 	    username = $('#identify input').val();
 	    console.log(username);
-	    $('#identify').modal('hide');
-	    // join the room
-	    $.post('<?php echo Request::root(); ?>/service/joinRoom');
+		PubSub.publish('joinRoom');
+		$('#identify').modal('hide');
+		$('#loading').modal('show');
+	})
+	$('#identify input').on('keypress', function(e){
+		var p = e.which;
+		if(p == 13)
+		{
+			username = $('#identify input').val();
+			console.log(username);
+			PubSub.publish('joinRoom');
+			$('#identify').modal('hide');
+			$('#loading').modal('show');
+		}
 	})
 	
-	//var socket = io.connect('http://<?php echo Config::get('custom.server'); ?>:<?php echo Config::get('custom.socket_port'); ?>');
+	var joinRoom = function(str){
+		console.log('joining room');
+		$.get('<?php echo action("HomeController@joinRoom"); ?>', function(html){
+			$('.main-content').html(html);
+			$('#loading').modal('hide');
+		})
+	}
+	
+	PubSub.subscribe('joinRoom', joinRoom)
+	
 	/*
 	socket.on('update', function (data) {
 	    console.log('woot');

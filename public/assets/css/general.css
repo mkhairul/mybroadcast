@@ -1,1 +1,11 @@
 #identify .modal-body{ padding-bottom: 0px; }
+.chat-window{ height: 100%; /*border: 1px solid #000;*/ }
+.chat-window h2{ margin: 0; padding: 0; font-size: 1em; margin-bottom: 5px; }
+.chat-window .chat{ height: 90%; margin-bottom: 5px; border: 1px solid #EDEEF0; }
+.chat-window > .message{ height: 10%; }
+
+.chat-row{ padding: 0; }
+.chat-row .name, .chat-row .message{ padding: 2px; /*border: 1px solid #BED6ED;*/ }
+.chat-row .name{ text-align: right; background-color: #E4ECF7; padding-right: 5px;  }
+.chat-row .name .datetime{ display: inline-block; padding-right: 2px; }
+.chat-row .message{ background-color: #F3F7FB; padding-left: 5px; }
