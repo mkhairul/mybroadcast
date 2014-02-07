@@ -659,9 +659,9 @@
 <script type="text/javascript" src="http://<?php echo Config::get('custom.server'); ?>:<?php echo Config::get('custom.socket_port'); ?>/socket.io/socket.io.js"></script>
 <script>
 var username = '';
+var socket = io.connect('http://<?php echo Config::get('custom.server'); ?>:<?php echo Config::get('custom.socket_port'); ?>');
 window.onload = function()
 {
-	var socket = io.connect('http://<?php echo Config::get('custom.server'); ?>:<?php echo Config::get('custom.socket_port'); ?>');
 	
 	$('#loading').modal({show: false, keyboard: false, backdrop: 'static'});
 	$('#identify').modal({show: true, keyboard: false, backdrop: 'static'});

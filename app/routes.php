@@ -19,7 +19,8 @@ Route::get('/wut', function()
 
 Route::get('/', 'HomeController@showWelcome');
 Route::get('/start-broadcast', 'HomeController@broadcast');
-Route::get('/joinRoom', 'HomeController@joinRoom');
+//Route::get('/joinRoom', 'HomeController@joinRoom');
+Route::get('/joinRoom', 'RoomController@joinRoom');
 
 Route::get('/service/message', 'ServiceController@message');
 Route::get('/service/joinRoom', 'ServiceController@joinRoom');
