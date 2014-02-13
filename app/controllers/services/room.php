@@ -65,13 +65,15 @@ class RoomController extends BaseController {
 		$chat->room_id = $room_id;
 		$chat->save();
 		
-		$host = Config::get('custom.amqp_host');
-		$port = Config::get('custom.amqp_port');
-		$user = Config::get('custom.amqp_user');
-		$pass = Config::get('custom.amqp_pass');
-		$vhost = Config::get('custom.amqp_vhost');
+		$user = User::find(Session::get('id'));
 		
-		$connection = new AMQPConnection($host, $port, $user, $pass, $vhost);
+		$amqp_host = Config::get('custom.amqp_host');
+		$amqp_port = Config::get('custom.amqp_port');
+		$amqp_user = Config::get('custom.amqp_user');
+		$amqp_pass = Config::get('custom.amqp_pass');
+		$amqp_vhost = Config::get('custom.amqp_vhost');
+		
+		$connection = new AMQPConnection($amqp_host, $amqp_port, $amqp_user, $amqp_pass, $amqp_vhost);
         $channel = $connection->channel();
 		// $channel->exchange_declare('updates', 'fanout', false, false, false);
 		// Create and publish the message to the exchange.
@@ -79,7 +81,7 @@ class RoomController extends BaseController {
 			//'type' => 'update',
 			'type' => $room_id,
 			'data' => array(
-				'user' => Session::get('id'),
+				'user' => $user->name,
 				'message' => $message
 			)
 		);
