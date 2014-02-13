@@ -4,14 +4,14 @@
  */
 
 var amqp = require('amqp');
-var config = require('config');
+var config = require('./config');
 var connection = amqp.createConnection({ host: config.host, port: config.port, login: config.login, password: config.password });
 var io = require('socket.io').listen(8080);
 var pubsub = require('pubsub-js');
 var count = 1;
 
 connection.on('ready', function () {
-	connection.exchange("updates", options={type:'fanout'}, function(exchange) {   
+	connection.exchange("updates", options={type:'fanout',durable:true}, function(exchange) {   
 		var sendMessage = function(exchange, payload) {
 			console.log('about to publish')
 			var encoded_payload = JSON.stringify(payload);
