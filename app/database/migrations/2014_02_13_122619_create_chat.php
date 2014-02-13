@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersTable extends Migration {
+class CreateChat extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -11,11 +11,12 @@ class CreateUsersTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('users', function($table){
+		Schema::create('chat', function($table)
+        {
             $table->increments('id');
-            //$table->string('email')->unique();
-			$table->string('email');
-            $table->string('name');
+            $table->integer('user_id');
+            $table->string('room_id', 255);
+            $table->longText('message');
             $table->timestamps();
         });
 	}
@@ -27,7 +28,7 @@ class CreateUsersTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('users');
+		//
 	}
 
 }

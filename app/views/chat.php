@@ -36,6 +36,13 @@
                             
                             $(row).append(name).append(message);
                             $('#'+room_id+' .chat').append(row);
+							
+							// Sends message to server
+							$.post('<?php echo action("RoomController@sendMessage"); ?>', {'message':msg, id:"<?php echo $room_id; ?>" }, function(data){
+								if (data.status == 'ok') {
+									$('.message', row).append('<i class="glyphicon glyphicon-ok"></i>');
+								}
+							},'json')
                         }
                         PubSub.subscribe('sendMessage', send_message);
                         
@@ -55,6 +62,12 @@
                         var get_time = function(){
                             return moment().format('h:mmA');
                         }
+						
+						//socket.on('update', function (data) {
+						socket.on('<?php echo $room_id; ?>', function (data) {
+							console.log('woot');
+							console.log(data);
+						});
                         
                         PubSub.publish('newJoin');
                     </script>
