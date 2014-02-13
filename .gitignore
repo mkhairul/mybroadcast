@@ -4,3 +4,9 @@ composer.phar
 composer.lock
 .DS_Store
 Thumbs.db
+/app/config/custom.php
+/pubsub/config.json
+/app/config/database.php
+app/config/custom.php
+mybroadcast.komodoproject
+app/config/custom.php
