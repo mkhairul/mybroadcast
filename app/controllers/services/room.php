@@ -41,6 +41,7 @@ class RoomController extends BaseController {
     public function roomExists()
     {
         $room = Room::where('name', $this->room_name)->get()->first();
+		if(!$room){ return false; }
 		if($room->count() > 0)
 		{
 			$this->room_id = $room->id;
