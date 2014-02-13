@@ -10,3 +10,5 @@
 .chat-row .name .datetime{ display: inline-block; padding-right: 2px; }
 .chat-row .message{ background-color: #F3F7FB; padding-left: 5px; }
 .chat-row .message .glyphicon{ float: right; margin-right: 10px; }
+
+#rooms .acc-menu .active{ font-weight: bold; }

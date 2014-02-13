@@ -35,7 +35,15 @@ class RoomController extends BaseController {
         {
             $this->createRoom();
         }
+		$user = User::find(Session::get('id'));
+		$this->publishMessage($this->room_id, '', $user->name.' has joined the room');
 		return $this->generateRoom();
+	}
+	
+	public function listRooms()
+	{
+		$rooms = Room::take(50)->get()->lists('name','id');
+		return Response::json($rooms, 200);
 	}
     
     public function roomExists()
@@ -53,6 +61,33 @@ class RoomController extends BaseController {
 		}
     }
 	
+	public function publishMessage($room, $user, $message)
+	{
+		$amqp_host = Config::get('custom.amqp_host');
+		$amqp_port = Config::get('custom.amqp_port');
+		$amqp_user = Config::get('custom.amqp_user');
+		$amqp_pass = Config::get('custom.amqp_pass');
+		$amqp_vhost = Config::get('custom.amqp_vhost');
+		
+		$connection = new AMQPConnection($amqp_host, $amqp_port, $amqp_user, $amqp_pass, $amqp_vhost);
+        $channel = $connection->channel();
+		
+		// Create and publish the message to the exchange.
+		$data = array(
+			'type' => $room,
+			'data' => array(
+				'user' => ($user) ? $user->name:'',
+				'message' => $message
+			)
+		);
+		$message = new AMQPMessage(json_encode($data), array('content_type' => 'text/plain'));
+		$channel->basic_publish($message, 'updates');
+		
+		// Close connection.
+		$channel->close();
+		$connection->close();
+	}
+	
 	public function sendMessage()
 	{
 		$message = Input::get('message');
@@ -67,30 +102,7 @@ class RoomController extends BaseController {
 		
 		$user = User::find(Session::get('id'));
 		
-		$amqp_host = Config::get('custom.amqp_host');
-		$amqp_port = Config::get('custom.amqp_port');
-		$amqp_user = Config::get('custom.amqp_user');
-		$amqp_pass = Config::get('custom.amqp_pass');
-		$amqp_vhost = Config::get('custom.amqp_vhost');
-		
-		$connection = new AMQPConnection($amqp_host, $amqp_port, $amqp_user, $amqp_pass, $amqp_vhost);
-        $channel = $connection->channel();
-		// $channel->exchange_declare('updates', 'fanout', false, false, false);
-		// Create and publish the message to the exchange.
-		$data = array(
-			//'type' => 'update',
-			'type' => $room_id,
-			'data' => array(
-				'user' => $user->name,
-				'message' => $message
-			)
-		);
-		$message = new AMQPMessage(json_encode($data), array('content_type' => 'text/plain'));
-		$channel->basic_publish($message, 'updates');
-		
-		// Close connection.
-		$channel->close();
-		$connection->close();
+		$this->publishMessage($room_id, $user, $message);
 		
 		return $this->respond->success()->json();
 	}

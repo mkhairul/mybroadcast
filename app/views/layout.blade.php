@@ -112,7 +112,7 @@
         <a id="rightmenu-trigger" class="pull-right" data-toggle="tooltip" data-placement="bottom" title="Toggle Right Sidebar"></a>
 
         <div class="navbar-header pull-left">
-            <a class="navbar-brand" href="index.htm"></a>
+            <a class="navbar-brand2" href="index.htm"></a>
         </div>
 
         <ul class="nav navbar-nav pull-right toolbar">
@@ -283,109 +283,10 @@
                 <li class="divider"></li>
                 <li><a href="index.htm"><i class="fa fa-home"></i> <span>Main</span></a></li>
 				<li><a href="#" class="start-broadcast"><i class="fa fa-pencil"></i> <span>Broadcast</span></a></li>
-                <li><a href="javascript:;"><i class="fa fa-th"></i> <span>Layout Options</span> </a>
-                    <ul class="acc-menu">
-                        <li><a href="layout-grid.htm"><span>Grids</span></a>
-                        <li><a href="layout-horizontal.htm"><span>Horizontal Navigation</span></a>
-                        <li><a href="layout-horizontal2.htm"><span>Horizontal Navigation 2</span></a>
-                        <li><a href="layout-fixed.htm"><span>Fixed Boxed Layout</span></a>
-                    </ul>
-                </li>
-                <li><a href="javascript:;"><i class="fa fa-list-ol"></i> <span>UI Elements</span> <span class="badge badge-indigo">4</span></a>
+				<li><a href="#" class="start-room"><i class="fa fa-pencil"></i> <span>Join Room</span></a></li>
+                <li id="rooms"><a href="javascript:;"><i class="fa fa-list-ol"></i> <span>Rooms</span> <span class="badge badge-indigo">0</span></a>
                     <ul class='acc-menu'>
-                        <li><a href="ui-typography.htm">Typography</a></li>
-                        <li><a href="ui-buttons.htm">Buttons</a></li>
-                        <li><a href="tables-basic.htm">Tables</a></li>
-                        <li><a href="form-layout.htm">Forms</a></li>
-                        <li><a href="ui-panels.htm">Panels</a></li>
-                        <li><a href="ui-images.htm">Images</a></li>
-                    </ul>
-                </li>
-                <li><a href="javascript:;"><i class="fa fa-tasks"></i> <span>UI Componenets</span> <span class="badge badge-info">12</span></a>
-                    <ul class="acc-menu">
-                        <li><a href="ui-tiles.htm">Tiles</a></li>
-                        <li><a href="ui-modals.htm">Modal Boxes</a></li>
-                        <li><a href="ui-progressbars.htm">Progress Bars</a></li>
-						<li><a href="ui-paginations.htm">Pagers &amp; Paginations</a></li>
-						<li><a href="ui-breadcrumbs.htm">Breadcrumbs</a></li>
-						<li><a href="ui-labelsbadges.htm">Labels &amp; Badges</a></li>
-                        <li><a href="ui-alerts.htm">Alerts &amp; Notificiations</a></li>
-                        <li><a href="ui-sliders.htm">Sliders &amp; Ranges</a></li>
-                        <li><a href="ui-carousel.htm">Carousel</a></li>
-                        <li><a href="ui-nestable.htm">Nestable Lists</a></li>
-                        <li><a href="ui-wells.htm">Wells</a></li>
-                    </ul>
-                </li>
-                <li><a href="javascript:;"><i class="fa fa-table"></i> <span>Advanced Tables</span></a>
-                    <ul class="acc-menu">
-                        <li><a href="tables-data.htm">Data Tables</a></li>
-                        <li><a href="tables-responsive.htm">Responsive Tables</a></li>
-                        <li><a href="tables-editable.htm">Editable Tables</a></li>
-						<!-- <li><a href="#">Samples</a></li> Coming soon -->
-                    </ul>
-                </li>
-                <li><a href="javascript:;"><i class="fa fa-pencil"></i> <span>Advanced Forms</span><span class="badge badge-primary">5</span></a>
-                    <ul class="acc-menu">
-                        <li><a href="form-components.htm">Components</a></li>
-                        <li><a href="form-wizard.htm">Wizards</a></li>
-                        <li><a href="form-validation.htm">Validation</a></li>
-                        <li><a href="form-masks.htm">Masks</a></li>
-                        <li><a href="form-fileupload.htm">Multiple File Uploads</a></li>
-                        <li><a href="form-dropzone.htm">Dropzone File Uploads</a></li>
-                        <!-- <li><a href="#">Samples</a></li> Coming soon -->
-                    </ul>
-                </li>
-                <li><a href="javascript:;"><i class="fa fa-map-marker"></i> <span>Maps</span></a>
-                    <ul class="acc-menu">
-                        <li><a href="maps-google.htm">Google Maps</a></li>
-                        <li><a href="maps-vector.htm">Vector Maps</a></li>
-                    </ul>
-                </li>
-                <li><a href="javascript:;"><i class="fa fa-bar-chart-o"></i> <span>Charts</span></a>
-                    <ul class="acc-menu">
-                        <li><a href="charts-flot.htm">Extensible</a></li>
-                        <li><a href="charts-svg.htm">Interactive</a></li>
-                        <li><a href="charts-canvas.htm">Lightweight</a></li>
-                        <li><a href="charts-inline.htm">Inline</a></li>
-                    </ul>
-                </li>
-                <li><a href="calendar.htm"><i class="fa fa-calendar"></i> <span>Calendar</span></a></li>
-                <li><a href="gallery.htm"><i class="fa fa-camera"></i> <span> Gallery</span> </a></li>
-                <li><a href="javascript:;"><i class="fa fa-flag"></i> <span>Icons</span> <span class="badge badge-orange">2</span></a>
-                    <ul class="acc-menu">
-                        <li><a href="icons-fontawesome.htm">Font Awesome</a></li>
-                        <li><a href="icons-glyphicons.htm">Glyphicons</a></li>
-                    </ul>
-                </li>
-                <li class="divider"></li>
-                <li><a href="javascript:;"><i class="fa fa-briefcase"></i> <span>Extras</span> <span class="badge badge-danger">1</span></a>
-                    <ul class="acc-menu">
-                        <li><a href="extras-search.htm">Search Page</a></li>
-                        <li><a href="extras-404.htm">404 Page</a></li>
-                        <li><a href="extras-500.htm">500 Page</a></li>
-                        <li><a href="extras-login.htm">Login 1</a></li>
-                        <li><a href="extras-login2.htm">Login 2</a></li>
-                        <li><a href="extras-blank.htm">Blank Page</a></li>
-                    </ul>
-                </li>
-                <li><a href="javascript:;"><i class="fa fa-sitemap"></i> <span>Unlimited Level Menu</span></a>
-                    <ul class="acc-menu">
-                        <li><a href="javascript:;">Menu Item 1</a></li>
-                        <li><a href="javascript:;">Menu Item 2</a>
-                            <ul class="acc-menu">
-                                <li><a href="javascript:;">Menu Item 2.1</a></li>
-                                <li><a href="javascript:;">Menu Item 2.2</a>
-                                    <ul class="acc-menu">
-                                        <li><a href="javascript:;">Menu Item 2.2.1</a></li>
-                                        <li><a href="javascript:;">Menu Item 2.2.2</a>
-                                            <ul class="acc-menu">
-                                                <li><a href="javascript:;">And deeper yet!</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
+						<li class="loading"><a href="#"><img src="assets/img/ajax-loader.gif" /> Loading.. </a></li>
                     </ul>
                 </li>
             </ul>
@@ -599,8 +500,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-				<h4 class="modal-title">Identify Yourself</h4>
+				<h4 class="modal-title">Nickname</h4>
 			</div>
 			<div class="modal-body">
 				<form class="form-horizontal">
@@ -689,7 +589,7 @@ window.onload = function()
 			$('#loading').modal('show');
 		}
 	})
-	
+
 	var joinRoom = function(str){
 		console.log('joining room');
 		$.get('<?php echo action("RoomController@joinRoom"); ?>', {'room_name':default_room}, function(html){
@@ -699,6 +599,25 @@ window.onload = function()
 	}
 	
 	PubSub.subscribe('joinRoom', joinRoom)
+	
+	
+	// List the rooms
+	$('#rooms a').trigger('click');
+	$.get('<?php echo action("RoomController@listRooms"); ?>', function(data){
+		if (data) {
+			$('#rooms .acc-menu .loading').remove();
+			$.each(data, function(k,v){
+				//<li><a href="ui-typography.htm">Typography</a></li>
+				$('#rooms .acc-menu').append(
+										$('<li/>').html(
+											$('<a/>').attr({href:'#','data-room':k}).html('#'+v)
+										)
+									  )
+				var total = parseInt($('#rooms .badge').html())+1
+				$('#rooms .badge').html(total)
+			})
+		}
+	},'json')
 }
 </script>
 

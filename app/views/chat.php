@@ -25,17 +25,23 @@
                                 $(this).val('');
                             }
                         })
-                        
-                        var send_message = function(event_name, msg)
-                        {
-                            // create row
+						
+						var display_message = function(user, msg)
+						{
+							// create row
                             var row = $('<div>').addClass('col-md-12 chat-row');
-                            var name = $('<div>').addClass('col-md-2 col-xs-12 col-sm-6 name').html(username);
+                            var name = $('<div>').addClass('col-md-2 col-xs-12 col-sm-6 name').html(user);
                             $(name).prepend($('<div>').addClass('datetime').html('['+get_time()+']'))
                             var message = $('<div>').addClass('col-md-10 col-xs-12 col-sm-6 message').html(msg);
                             
                             $(row).append(name).append(message);
                             $('#'+room_id+' .chat').append(row);
+							return row;
+						}
+                        
+                        var send_message = function(event_name, msg)
+                        {
+                            var row = display_message(username, msg)
 							
 							// Sends message to server
 							$.post('<?php echo action("RoomController@sendMessage"); ?>', {'message':msg, id:"<?php echo $room_id; ?>" }, function(data){
@@ -56,6 +62,9 @@
                             
                             $(row).append(name).append(message);
                             $('#'+room_id+' .chat').append(row);
+							
+							// highlight the room on the sidebar
+							$('#rooms [data-room="'+room_id+'"]').addClass('active');
                         }
                         PubSub.subscribe('newJoin', new_join);
                         
@@ -65,8 +74,9 @@
 						
 						//socket.on('update', function (data) {
 						socket.on('<?php echo $room_id; ?>', function (data) {
-							console.log('woot');
-							console.log(data);
+							if (data.user != username) {
+								display_message(data.user, data.message)
+							}
 						});
                         
                         PubSub.publish('newJoin');

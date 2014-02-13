@@ -24,11 +24,5 @@ class HomeController extends BaseController {
 	{
 		return View::make('broadcast_start');
 	}
-	
-	public function joinRoom()
-	{
-		$room_id = uniqid();
-		return View::make('chat', array('room_id' => $room_id));
-	}
 
 }
