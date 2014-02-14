@@ -61,6 +61,8 @@ connection.on('ready', function () {
 				// Set up the request
 				
 				var post_req = http.request(post_options, function(res) {
+					console.log('posted')
+					console.log(res)
 					res.setEncoding('utf8');
 					res.on('data', function (chunk) {
 						console.log('Response: ' + chunk);
