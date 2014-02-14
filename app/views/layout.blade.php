@@ -622,6 +622,17 @@ window.onload = function()
 	socket.on('presence', function (data) {
 		console.log('presence');
 		console.log(data);
+		var rooms = JSON.parse(data.rooms)
+		$.each(rooms, function(room_id,users){
+			// update the user count in each rooms
+			if ($('#rooms [data-room="'+room_id+'"]').length == 0) {
+				$('#rooms [data-room="'+room_id+'"]').append('<span class="badge badge-indigo">'+users.length+'</span>')
+			}
+			else
+			{
+				$('#rooms [data-room="'+room_id+'"] .badge').html(users.length);
+			}
+		})
 	});
 }
 </script>
