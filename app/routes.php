@@ -26,6 +26,9 @@ Route::post('/sendMessage', 'RoomController@sendMessage');
 Route::get('/sendMessage', 'RoomController@sendMessage');
 Route::get('/listRooms', 'RoomController@listRooms');
 
+Route::post('/presence', 'RoomController@updatePresence');
+Route::get('/presence', 'RoomController@presence');
+
 Route::get('/service/message', 'ServiceController@message');
 Route::get('/service/joinRoom', 'ServiceController@joinRoom');
 Route::post('/service/joinRoom', 'ServiceController@joinRoom');

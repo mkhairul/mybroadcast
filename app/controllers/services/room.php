@@ -88,6 +88,27 @@ class RoomController extends BaseController {
 		$connection->close();
 	}
 	
+	public function presence()
+	{
+		$presence = Presence::take(1)->orderBy('created_at', 'desc')->get();
+		return Response::json(array('status' => 'ok', 'users' => $presence->users, 'rooms' => $presence->rooms), 200);
+	}
+	
+	public function updatePresence()
+	{
+		$rooms = Input::get('rooms');
+		$users = Input::get('users');
+		
+		if(!$rooms or !$users){ return $this->respond->fail()->json(); }
+		
+		$presence = new Presence;
+		$presence->users = $users;
+		$presence->rooms = $rooms;
+		$presence->save();
+		
+		return $this->respond->success()->json();
+	}
+	
 	public function sendMessage()
 	{
 		$message = Input::get('message');

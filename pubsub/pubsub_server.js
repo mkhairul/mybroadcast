@@ -42,6 +42,32 @@ connection.on('ready', function () {
 				socket.emit(message.type, message.data);
 			})
 			
+			var updatePresence = function(users, rooms){
+				var post_data = querystring.stringify({
+					'rooms' : rooms,
+					'users' : users
+				});
+				// An object of options to indicate where to post to
+				var post_options = {
+					host: 'localhost',
+					port: '80',
+					path: '/presence',
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded',
+						'Content-Length': post_data.length
+					}
+				};
+				// Set up the request
+				
+				var post_req = http.request(post_options, function(res) {
+					res.setEncoding('utf8');
+					res.on('data', function (chunk) {
+						console.log('Response: ' + chunk);
+					});
+				});
+			}
+			
 			socket.on('presence', function(data){
 				var socket_id = socket.id;
 				var room_id = data.room;
@@ -62,30 +88,8 @@ connection.on('ready', function () {
 					users[socket_id].push(tmp);
 				}
 				
-				var post_data = querystring.stringify({
-					'rooms' : rooms,
-					'users' : users
-				});
-				// An object of options to indicate where to post to
-				var post_options = {
-					host: 'localhost',
-					port: '80',
-					path: '/presence',
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/x-www-form-urlencoded',
-						'Content-Length': post_data.length
-					}
-				};
-				// Set up the request
-				/*
-				var post_req = http.request(post_options, function(res) {
-					res.setEncoding('utf8');
-					res.on('data', function (chunk) {
-						console.log('Response: ' + chunk);
-					});
-				});
-				*/
+				updatePresence(users, rooms);
+				
 				console.log(users);
 				console.log(rooms);
 				console.log(data);
@@ -113,9 +117,9 @@ connection.on('ready', function () {
 						}
 					}
 				}
-				
 				// delete the element
 				rooms.splice(rooms.indexOf(socket_id), 1)
+				updatePresence(users, rooms);
 			})
 		})
 		
