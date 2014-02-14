@@ -42,7 +42,8 @@ connection.on('ready', function () {
 				socket.emit(message.type, message.data);
 			})
 			
-			var updatePresence = function(users, rooms){
+			//var updatePresence = function(users, rooms){
+			pubsub.subscribe('updatePresence', function(pubsub_name, users, rooms){
 				var post_data = querystring.stringify({
 					'rooms' : rooms,
 					'users' : users
@@ -68,7 +69,7 @@ connection.on('ready', function () {
 						console.log('Response: ' + chunk);
 					});
 				});
-			}
+			});
 			
 			socket.on('presence', function(data){
 				var socket_id = socket.id;
@@ -90,7 +91,8 @@ connection.on('ready', function () {
 					users[socket_id].push(tmp);
 				}
 				
-				updatePresence(users, rooms);
+				//updatePresence(users, rooms);
+				pubsub.publish('broadcast_message', users, rooms);
 				
 				console.log(users);
 				console.log(rooms);
@@ -121,7 +123,7 @@ connection.on('ready', function () {
 				}
 				// delete the element
 				rooms.splice(rooms.indexOf(socket_id), 1)
-				updatePresence(users, rooms);
+				pubsub.publish('broadcast_message', users, rooms);
 			})
 		})
 		
