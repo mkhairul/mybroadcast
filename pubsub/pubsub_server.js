@@ -127,7 +127,7 @@ connection.on('ready', function () {
 					}
 				}
 				// delete the element
-				rooms.splice(rooms.indexOf(socket_id), 1)
+				users.splice(users.indexOf(socket_id), 1)
 				pubsub.publish('updatePresence', { 'users':users, 'rooms':rooms, 'message':'publish presence after closing socket'});
 			})
 		})
