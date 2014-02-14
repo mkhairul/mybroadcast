@@ -120,7 +120,8 @@ connection.on('ready', function () {
 						// delete the presence in rooms
 						for (j=0; j<rooms[room_id].length; j++) {
 							if (user_id in rooms[room_id][j]){
-								rooms[room_id].splice(j,1)
+								//rooms[room_id].splice(j,1)
+								delete rooms[room_id][j];
 								break;
 							}
 						}
