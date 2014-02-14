@@ -90,7 +90,8 @@ class RoomController extends BaseController {
 	
 	public function presence()
 	{
-		$presence = Presence::take(1)->orderBy('created_at', 'desc')->get();
+		$presence = Presence::take(1)->orderBy('created_at', 'desc')->get()[0];
+		if(!$presence){ $this->respond->success()->json(); }
 		return Response::json(array('status' => 'ok', 'users' => $presence->users, 'rooms' => $presence->rooms), 200);
 	}
 	

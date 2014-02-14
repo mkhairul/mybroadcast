@@ -12,8 +12,8 @@ var querystring = require('querystring');
 var http = require('http');
 var count = 1;
 
-var users = new Array();
-var rooms = new Array();
+var users = {};
+var rooms = {};
 
 connection.on('ready', function () {
 	connection.exchange("updates", options={type:'fanout',durable:true}, function(exchange) {   
@@ -43,11 +43,14 @@ connection.on('ready', function () {
 			})
 			
 			//var updatePresence = function(users, rooms){
-			pubsub.subscribe('updatePresence', function(pubsub_name, users, rooms){
+			pubsub.subscribe('updatePresence', function(pubsub_name, params){
+				console.log('in updatePresence')
 				var post_data = querystring.stringify({
-					'rooms' : rooms,
-					'users' : users
+					'rooms' : JSON.stringify(params.rooms),
+					'users' : JSON.stringify(params.users)
 				});
+				console.log(post_data);
+				
 				// An object of options to indicate where to post to
 				var post_options = {
 					host: 'localhost',
@@ -62,13 +65,13 @@ connection.on('ready', function () {
 				// Set up the request
 				
 				var post_req = http.request(post_options, function(res) {
-					console.log('posted')
-					console.log(res)
 					res.setEncoding('utf8');
 					res.on('data', function (chunk) {
 						console.log('Response: ' + chunk);
 					});
 				});
+				post_req.write(post_data);
+				post_req.end();
 			});
 			
 			socket.on('presence', function(data){
@@ -92,7 +95,7 @@ connection.on('ready', function () {
 				}
 				
 				//updatePresence(users, rooms);
-				pubsub.publish('updatePresence', users, rooms);
+				pubsub.publish('updatePresence', { 'users':users, 'rooms':rooms});
 				
 				console.log(users);
 				console.log(rooms);
@@ -102,7 +105,7 @@ connection.on('ready', function () {
 			socket.on('close', function(data){
 				var socket_id = socket.id;
 				// Get the user information
-				if ((socket.__fd in users) == false) { return;}
+				if ((socket_id in users) == false) { return;}
 				user_rooms = users[socket_id];
 				
 				// empty all presence in rooms
@@ -123,7 +126,7 @@ connection.on('ready', function () {
 				}
 				// delete the element
 				rooms.splice(rooms.indexOf(socket_id), 1)
-				pubsub.publish('updatePresence', users, rooms);
+				pubsub.publish('updatePresence', { 'users':users, 'rooms':rooms});
 			})
 		})
 		
