@@ -43,7 +43,7 @@ connection.on('ready', function () {
 			})
 			
 			socket.on('presence', function(data){
-				socket.__fd=socket.fd;
+				var socket_id = socket.id;
 				var room_id = data.room;
 				var user_id = data.user;
 				
@@ -51,15 +51,15 @@ connection.on('ready', function () {
 				if ((user_id in rooms[room_id]) == false)
 				{
 					var tmp = {}
-					tmp[user_id] = socket['__fd'];
+					tmp[user_id] = socket_id;
 					rooms[room_id].push(tmp);
 				}
-				if ((socket.__fd in users) == false) { users[socket.__fd] = new Array(); }
-				if ((room_id in users[socket.__fd]) == false)
+				if ((socket_id in users) == false) { users[socket_id] = new Array(); }
+				if ((room_id in users[socket_id]) == false)
 				{
 					var tmp = {}
 					tmp[room_id] = user_id
-					users[socket.__fd].push(tmp);
+					users[socket_id].push(tmp);
 				}
 				
 				var post_data = querystring.stringify({
@@ -92,10 +92,10 @@ connection.on('ready', function () {
 			})
 			
 			socket.on('close', function(data){
-				socket.__fd=socket.fd;
+				var socket_id = socket.id;
 				// Get the user information
 				if ((socket.__fd in users) == false) { return;}
-				user_rooms = users[socket.__fd];
+				user_rooms = users[socket_id];
 				
 				// empty all presence in rooms
 				for (i=0; i<user_rooms.length; i++) {
@@ -115,7 +115,7 @@ connection.on('ready', function () {
 				}
 				
 				// delete the element
-				rooms.splice(rooms.indexOf(socket.__fd), 1)
+				rooms.splice(rooms.indexOf(socket_id), 1)
 			})
 		})
 		
