@@ -35,7 +35,7 @@ class RoomController extends BaseController {
         {
             $this->createRoom();
         }
-		$user = User::find(Session::get('id'));
+		$user = User::take(1)->orderBy('created_at', 'desc')->find(Session::get('id'));
 		$this->publishMessage($this->room_id, '', $user->name.' has joined the room');
 		return $this->generateRoom();
 	}
