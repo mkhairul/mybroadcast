@@ -8,7 +8,12 @@ var config = require('./config');
 var connection = amqp.createConnection({ host: config.host, port: config.port, login: config.login, password: config.password });
 var io = require('socket.io').listen(8080);
 var pubsub = require('pubsub-js');
+var querystring = require('querystring');
+var http = require('http');
 var count = 1;
+
+var users = new Array();
+var rooms = new Array();
 
 connection.on('ready', function () {
 	connection.exchange("updates", options={type:'fanout',durable:true}, function(exchange) {   
@@ -38,7 +43,69 @@ connection.on('ready', function () {
 			})
 			
 			socket.on('presence', function(data){
+				socket.__fd=socket.fd;
+				if ((data.room in rooms) == false){ rooms[data.room] = new Array() }
+				if ((data.user in rooms[data.room]) == false)
+				{
+					rooms[data.room].push({data.user:socket.__fd});
+				}
+				if ((socket.__fd in users) == false) { users[socket.__fd] = new Array(); }
+				if ((data.room in users[socket.__fd]) == false) { users[socket.__fd].push({data.room:data.user}); }
+				
+				var post_data = querystring.stringify({
+					'rooms' : rooms,
+					'users' : users
+				});
+				// An object of options to indicate where to post to
+				var post_options = {
+					host: 'localhost',
+					port: '80',
+					path: '/presence',
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/x-www-form-urlencoded',
+						'Content-Length': post_data.length
+					}
+				};
+				// Set up the request
+				/*
+				var post_req = http.request(post_options, function(res) {
+					res.setEncoding('utf8');
+					res.on('data', function (chunk) {
+						console.log('Response: ' + chunk);
+					});
+				});
+				*/
+				console.log(users);
+				console.log(rooms);
 				console.log(data);
+			})
+			
+			socket.on('close', function(data){
+				socket.__fd=socket.fd;
+				// Get the user information
+				if ((socket.__fd in users) == false) { return;}
+				user_rooms = users[socket.__fd];
+				
+				// empty all presence in rooms
+				for (i=0; i<user_rooms.length; i++) {
+					var room_id = '';
+					for (var key in user_rooms[i]) {
+						room_id = key;
+						user_id = user_rooms[i].room_id
+						
+						// delete the presence in rooms
+						for (j=0; j<rooms[room_id].length; j++) {
+							if (user_id in rooms[room_id][j]){
+								rooms[room_id].splice(j,1)
+								break;
+							}
+						}
+					}
+				}
+				
+				// delete the element
+				rooms.splice(rooms.indexOf(socket.__fd), 1)
 			})
 		})
 		
