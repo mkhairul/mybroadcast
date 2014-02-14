@@ -103,7 +103,7 @@ connection.on('ready', function () {
 				console.log(data);
 			})
 			
-			socket.on('close', function(data){
+			socket.on('disconnect', function(data){
 				var socket_id = socket.id;
 				console.log('closing socket for:'+socket_id)
 				// Get the user information
