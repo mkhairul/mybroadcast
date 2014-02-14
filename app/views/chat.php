@@ -78,6 +78,6 @@
 								display_message(data.user, data.message)
 							}
 						});
-                        
+						socket.emit('presence', { user: username, room: room_id });
                         PubSub.publish('newJoin');
                     </script>
