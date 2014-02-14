@@ -115,13 +115,12 @@ connection.on('ready', function () {
 					var room_id = '';
 					for (var key in user_rooms[i]) {
 						room_id = key;
-						user_id = user_rooms[i].room_id
+						user_id = user_rooms[i][room_id]
 						
 						// delete the presence in rooms
 						for (j=0; j<rooms[room_id].length; j++) {
 							if (user_id in rooms[room_id][j]){
-								//rooms[room_id].splice(j,1)
-								delete rooms[room_id][j];
+								rooms[room_id].splice(j,1);
 								break;
 							}
 						}
