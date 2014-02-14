@@ -36,7 +36,8 @@ class RoomController extends BaseController {
             $this->createRoom();
         }
 		$user = User::take(1)->orderBy('created_at', 'desc')->find(Session::get('id'));
-		$this->publishMessage($this->room_id, '', $user->name.' has joined the room');
+		
+		$this->publishMessage($this->room_id, array('user' => '', 'message' => $user->name.' has joined the room'));
 		return $this->generateRoom();
 	}
 	
@@ -61,7 +62,7 @@ class RoomController extends BaseController {
 		}
     }
 	
-	public function publishMessage($room, $user, $message)
+	public function publishMessage($room, $data)
 	{
 		$amqp_host = Config::get('custom.amqp_host');
 		$amqp_port = Config::get('custom.amqp_port');
@@ -75,10 +76,7 @@ class RoomController extends BaseController {
 		// Create and publish the message to the exchange.
 		$data = array(
 			'type' => $room,
-			'data' => array(
-				'user' => ($user) ? $user->name:'',
-				'message' => $message
-			)
+			'data' => $data
 		);
 		$message = new AMQPMessage(json_encode($data), array('content_type' => 'text/plain'));
 		$channel->basic_publish($message, 'updates');
@@ -102,7 +100,7 @@ class RoomController extends BaseController {
 			
 			$rooms_presence = json_decode($presence->rooms, true);
 			$rooms = $rooms_presence[$room->id];
-			return Response::json(array('status' => 'ok', 'users' => $presence->users, 'rooms' => $rooms), 200);
+			return Response::json(array('status' => 'ok', 'room' => $room->id, 'users' => $rooms), 200);
 		}
 		else
 		{
@@ -122,6 +120,8 @@ class RoomController extends BaseController {
 		$presence->rooms = $rooms;
 		$presence->save();
 		
+		$this->publishMessage('presence', array('users' => $users, 'rooms' => $rooms));
+		
 		return $this->respond->success()->json();
 	}
 	
@@ -139,7 +139,7 @@ class RoomController extends BaseController {
 		
 		$user = User::find(Session::get('id'));
 		
-		$this->publishMessage($room_id, $user, $message);
+		$this->publishMessage($room_id, array('user' => $user->name, 'message' => $message));
 		
 		return $this->respond->success()->json();
 	}

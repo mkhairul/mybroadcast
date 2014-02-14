@@ -618,6 +618,11 @@ window.onload = function()
 			})
 		}
 	},'json')
+	
+	socket.on('presence', function (data) {
+		console.log('presence');
+		console.log(data);
+	});
 }
 </script>
 
