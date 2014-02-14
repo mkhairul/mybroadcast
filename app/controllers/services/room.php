@@ -91,8 +91,23 @@ class RoomController extends BaseController {
 	public function presence()
 	{
 		$presence = Presence::take(1)->orderBy('created_at', 'desc')->get()[0];
-		if(!$presence){ $this->respond->success()->json(); }
-		return Response::json(array('status' => 'ok', 'users' => $presence->users, 'rooms' => $presence->rooms), 200);
+		if(!$presence){ $this->respond->fail()->message('No presence found')->json(); }
+		
+		// Filter by room is value is passed
+		$room_name = Input::get('room_name');
+		if($room_name)
+		{
+			$room = Room::where('name', $room_name)->first();
+			if(!$room){ return $this->respond->fail()->json(); }
+			
+			$rooms_presence = json_decode($presence->rooms, true);
+			$rooms = $rooms_presence[$room->id];
+			return Response::json(array('status' => 'ok', 'users' => $presence->users, 'rooms' => $rooms), 200);
+		}
+		else
+		{
+			return Response::json(array('status' => 'ok', 'users' => $presence->users, 'rooms' => $presence->rooms), 200);
+		}
 	}
 	
 	public function updatePresence()
