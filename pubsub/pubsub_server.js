@@ -50,6 +50,7 @@ connection.on('ready', function () {
 					'users' : JSON.stringify(params.users)
 				});
 				console.log(post_data);
+				console.log(params.message)
 				
 				// An object of options to indicate where to post to
 				var post_options = {
@@ -104,6 +105,7 @@ connection.on('ready', function () {
 			
 			socket.on('close', function(data){
 				var socket_id = socket.id;
+				console.log('closing socket for:'+socket_id)
 				// Get the user information
 				if ((socket_id in users) == false) { return;}
 				user_rooms = users[socket_id];
@@ -126,7 +128,7 @@ connection.on('ready', function () {
 				}
 				// delete the element
 				rooms.splice(rooms.indexOf(socket_id), 1)
-				pubsub.publish('updatePresence', { 'users':users, 'rooms':rooms});
+				pubsub.publish('updatePresence', { 'users':users, 'rooms':rooms, 'message':'publish presence after closing socket'});
 			})
 		})
 		
