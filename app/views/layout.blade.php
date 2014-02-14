@@ -623,7 +623,9 @@ window.onload = function()
 		console.log('presence');
 		console.log(data);
 		var rooms = JSON.parse(data.rooms)
+		console.log(rooms);
 		$.each(rooms, function(room_id,users){
+			console.log('room_id:'+room_id)
 			// update the user count in each rooms
 			if ($('#rooms [data-room="'+room_id+'"]').length == 0) {
 				$('#rooms [data-room="'+room_id+'"]').append('<span class="badge badge-indigo">'+users.length+'</span>')
