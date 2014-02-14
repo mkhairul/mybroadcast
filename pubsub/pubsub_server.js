@@ -44,17 +44,18 @@ connection.on('ready', function () {
 			
 			socket.on('presence', function(data){
 				socket.__fd=socket.fd;
-				if ((data.room in rooms) == false){ rooms[data.room] = new Array(); }
-				if ((data.user in rooms[data.room]) == false)
+				var room_id = data.room;
+				var user_id = data.user;
+				
+				if ((room_id in rooms) == false){ rooms[room_id] = new Array(); }
+				if ((user_id in rooms[room_id]) == false)
 				{
-					var tmp = data.user;
-					rooms[data.room].push({tmp:socket['__fd']});
+					rooms[room_id].push({user_id:socket['__fd']});
 				}
 				if ((socket.__fd in users) == false) { users[socket.__fd] = new Array(); }
-				if ((data.room in users[socket.__fd]) == false)
+				if ((room_id in users[socket.__fd]) == false)
 				{
-					var tmp = data.room;
-					users[socket.__fd].push({tmp:data.user});
+					users[socket.__fd].push({room_id:user_id});
 				}
 				
 				var post_data = querystring.stringify({
