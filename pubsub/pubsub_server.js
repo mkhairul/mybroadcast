@@ -50,12 +50,16 @@ connection.on('ready', function () {
 				if ((room_id in rooms) == false){ rooms[room_id] = new Array(); }
 				if ((user_id in rooms[room_id]) == false)
 				{
-					rooms[room_id].push({user_id:socket['__fd']});
+					var tmp = {}
+					tmp[user_id] = socket['__fd'];
+					rooms[room_id].push(tmp);
 				}
 				if ((socket.__fd in users) == false) { users[socket.__fd] = new Array(); }
 				if ((room_id in users[socket.__fd]) == false)
 				{
-					users[socket.__fd].push({room_id:user_id});
+					var tmp = {}
+					tmp[room_id] = user_id
+					users[socket.__fd].push(tmp);
 				}
 				
 				var post_data = querystring.stringify({
