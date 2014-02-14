@@ -105,7 +105,7 @@ connection.on('ready', function () {
 			
 			socket.on('disconnect', function(data){
 				var socket_id = socket.id;
-				console.log('closing socket for:'+socket_id)
+				console.log('closing socket for: '+socket_id)
 				// Get the user information
 				if ((socket_id in users) == false) { return;}
 				user_rooms = users[socket_id];
@@ -127,7 +127,7 @@ connection.on('ready', function () {
 					}
 				}
 				// delete the element
-				users.splice(users.indexOf(socket_id), 1)
+				delete users[socket_id];
 				pubsub.publish('updatePresence', { 'users':users, 'rooms':rooms, 'message':'publish presence after closing socket'});
 			})
 		})
