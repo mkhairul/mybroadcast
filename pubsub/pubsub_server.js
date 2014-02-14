@@ -92,7 +92,7 @@ connection.on('ready', function () {
 				}
 				
 				//updatePresence(users, rooms);
-				pubsub.publish('broadcast_message', users, rooms);
+				pubsub.publish('updatePresence', users, rooms);
 				
 				console.log(users);
 				console.log(rooms);
@@ -123,7 +123,7 @@ connection.on('ready', function () {
 				}
 				// delete the element
 				rooms.splice(rooms.indexOf(socket_id), 1)
-				pubsub.publish('broadcast_message', users, rooms);
+				pubsub.publish('updatePresence', users, rooms);
 			})
 		})
 		
