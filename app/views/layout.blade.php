@@ -625,7 +625,7 @@ window.onload = function()
 		var rooms = JSON.parse(data.rooms)
 		console.log(rooms);
 		$.each(rooms, function(room_id,users){
-			PubSub.publish('room_id', users);
+			PubSub.publish(room_id, users);
 			console.log('room_id:'+room_id)
 			// update the user count in each rooms
 			if ($('#rooms [data-room="'+room_id+'"] .badge').length == 0) {
