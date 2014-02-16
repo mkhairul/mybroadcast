@@ -34,14 +34,14 @@ connection.on('ready', function () {
 				pubsub.publish('broadcast_message', payload);
 			})
 		})
+		
+		pubsub.subscribe('broadcast_message', function(pubsub_name, msg){
+			console.log('trying to broadcast');
+			var message = msg;
+			io.sockets.emit(message.type, message.data);
+		})
 
 		io.sockets.on('connection', function(socket){
-			pubsub.subscribe('broadcast_message', function(pubsub_name, msg){
-				console.log('trying to broadcast');
-				var message = msg;
-				//socket.emit(message.type, message.data);
-				io.sockets.emit(message.type, message.data);
-			})
 			
 			//var updatePresence = function(users, rooms){
 			pubsub.subscribe('updatePresence', function(pubsub_name, params){
