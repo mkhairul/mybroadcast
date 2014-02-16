@@ -114,6 +114,7 @@
 							for(var i=0; i<missing.length; i++)
 							{
 								tmp_users.splice(user_list.indexOf(missing[i]), 1);
+								$('.users-list ul li a[data-username="'+missing[i]+'"]').parent().remove();
 							}
 							
 							var new_users = diff(tmp_users, user_list);
@@ -123,7 +124,6 @@
 								var names = $('<a/>').attr('href', '#');
 								$(names).attr('data-username', new_users[i]).html(new_users[i]);
 								$(list).html(names);
-								$('.users-list ul').html('');
 								$('.users-list ul').append(list);
 							}
 						}
