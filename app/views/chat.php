@@ -7,6 +7,9 @@
 							</div>
 						</div>
 						<div class="chat">
+							<div class="col-md-12 chat-row loading">
+								<img src="assets/img/ajax-loader.gif" /> Loading history..
+                            </div>
                             <!--
 							<div class="col-md-12 chat-row">
                                 <div class="col-md-2 col-xs-12 col-sm-6 name"><div class="datetime">[2:15PM]</div> Test</div>
@@ -33,6 +36,25 @@
                             }
                         })
 						
+						var display_history = function()
+						{
+							$.get('<?php echo action("RoomController@getHistory"); ?>', {room_id:'<?php echo $room_id; ?>'}, function(data){
+								if (data.message.length > 0) {
+									$('.chat-row.loading').remove();
+									$.each(data.message, function(k,v){
+										var row = $('<div>').addClass('col-md-12 chat-row');
+										var name = $('<div>').addClass('col-md-2 col-xs-12 col-sm-6 name').html(v.user);
+										$(name).prepend($('<div>').addClass('datetime').html('['+v.created_at+']'))
+										var message = $('<div>').addClass('col-md-10 col-xs-12 col-sm-6 message').html(v.message);
+										
+										$(row).append(name).append(message);
+										$('#<?php echo $room_id; ?> .chat').prepend(row);
+									})
+								}
+							})
+						}
+						PubSub.subscribe('newJoin', display_history);
+						
 						var display_message = function(user, msg)
 						{
 							// create row
@@ -42,7 +64,7 @@
                             var message = $('<div>').addClass('col-md-10 col-xs-12 col-sm-6 message').html(msg);
                             
                             $(row).append(name).append(message);
-                            $('#'+room_id+' .chat').append(row);
+                            $('#<?php echo $room_id; ?> .chat').append(row);
 							return row;
 						}
                         

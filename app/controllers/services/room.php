@@ -28,12 +28,29 @@ class RoomController extends BaseController {
 	public function getHistory()
 	{
 		$room_name = Input::get('room_name');
-		$room = Room::where('name', $room_name)->get()->first();
-		$room_name = $room->name;
+		$room_id = Input::get('room_id');
+		if($room_name)
+		{
+			$room = Room::where('name', $room_name)->get()->first();
+		}
+		else
+		{
+			$room = Room::where('id', $room_id)->get()->first();
+		}
+		if(!$room){ return $this->respond->fail()->json(); }
 		
 		$total_rows = Chat::where('room_id', $room->id)->count();
-		$chat = Chat::take(50)->where('room_id', $room->id)->orderBy('created_at', 'desc')->get();
-		return Response::json(array('message' => $chat, 'total' => $total_rows), 200);
+		$chat_log = Chat::take(50)
+					->leftJoin('users', 'users.id', '=', 'chat.user_id')
+					->where('room_id', $room->id)
+					->orderBy('chat.created_at', 'desc')
+					->select('users.name', 'chat.message', 'chat.created_at')->get();
+		$response = array();
+		foreach($chat_log as $chat)
+		{
+			$response[] = array('user' => $chat->name, 'message' => $chat->message, 'created_at' => $chat->created_at);
+		}
+		return Response::json(array('message' => $response, 'total' => $total_rows), 200);
 	}
     
     public function joinRoom()
