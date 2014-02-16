@@ -28,7 +28,7 @@ class RoomController extends BaseController {
 	public function getHistory()
 	{
 		$room_name = Input::get('room_name');
-		$room = Room::where('name', $this->room_name)->get()->first();
+		$room = Room::where('name', $room_name)->get()->first();
 		$room_name = $room->name;
 		
 		$total_rows = Chat::where('room_id', $room->id)->count();
