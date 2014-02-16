@@ -52,6 +52,9 @@
 										$('#<?php echo $room_id; ?> .chat').prepend(row);
 									})
 								}
+								// scroll to the bottom
+								var myDiv = $("#<?php echo $room_id; ?> .chat");
+								$(myDiv).scrollTop($('.chat-row', myDiv).length * 20);
 							})
 						}
 						PubSub.subscribe('loadHistory', display_history);
@@ -66,11 +69,19 @@
                             
                             $(row).append(name).append(message);
                             $('#<?php echo $room_id; ?> .chat').append(row);
+							
+							// scroll to the bottom
+							var myDiv = $("#<?php echo $room_id; ?> .chat");
+							$(myDiv).scrollTop($('.chat-row', myDiv).length * 20);
+							
 							return row;
 						}
                         
                         var send_message = function(event_name, msg)
                         {
+							if (msg == '') {
+								return;
+							}
                             var row = display_message(username, msg)
 							
 							// Sends message to server
