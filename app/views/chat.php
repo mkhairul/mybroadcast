@@ -3,12 +3,7 @@
 						<div class="chat-options">
 							<a href="#" class="users active"><i class="fa fa-user"></i></a>
 							<div class="users-list">
-								<ul>
-									<li><a href="#">MK</a></li>
-									<li><a href="#">MK</a></li>
-									<li><a href="#">MK</a></li>
-									<li><a href="#">MK</a></li>
-								</ul>
+								<ul></ul>
 							</div>
 						</div>
 						<div class="chat">
