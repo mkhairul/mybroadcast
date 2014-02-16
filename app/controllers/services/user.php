@@ -12,7 +12,7 @@ class UserController extends Controller {
         }
         else
         {
-            $user = User::find(Session::get('id'));
+            $user = User::find(Session::get('id'))->get();
             if(!$user)
             {
                 $this->createUser($name);
