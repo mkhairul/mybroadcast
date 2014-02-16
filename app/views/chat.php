@@ -54,7 +54,7 @@
 								}
 							})
 						}
-						PubSub.subscribe('newJoin', display_history);
+						PubSub.subscribe('loadHistory', display_history);
 						
 						var display_message = function(user, msg)
 						{
@@ -158,4 +158,5 @@
 						});
 						socket.emit('presence', { user: username, room: room_id });
                         //PubSub.publish('newJoin');
+						PubSub.publish('loadHistory');
                     </script>
