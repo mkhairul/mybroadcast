@@ -127,7 +127,7 @@
 								$('.users-list ul').append(list);
 							}
 						}
-						PubSub.subscribe('<?php echo $room_id; ?>', send_message);
+						PubSub.subscribe('<?php echo $room_id; ?>', update_presence);
 						
 						//socket.on('update', function (data) {
 						socket.on('<?php echo $room_id; ?>', function (data) {
