@@ -157,5 +157,5 @@
 							}
 						});
 						socket.emit('presence', { user: username, room: room_id });
-                        PubSub.publish('newJoin');
+                        //PubSub.publish('newJoin');
                     </script>
