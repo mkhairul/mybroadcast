@@ -42,10 +42,10 @@
 								if (data.message.length > 0) {
 									$('.chat-row.loading').remove();
 									$.each(data.message, function(k,v){
-										var local_date = new Date(v.created_at.date + ' ' + v.created_at.timezone)
+										var local_date = moment(v.created_at.date + ' ' + v.created_at.timezone).zone(moment().zone()).format('YYYY-MM-DD h:mmA')
 										var row = $('<div>').addClass('col-md-12 chat-row');
 										var name = $('<div>').addClass('col-md-2 col-xs-12 col-sm-6 name').html(v.user);
-										$(name).prepend($('<div>').addClass('datetime').html('['+local_date.toString()+']'))
+										$(name).prepend($('<div>').addClass('datetime').html('['+local_date+']'))
 										var message = $('<div>').addClass('col-md-10 col-xs-12 col-sm-6 message').html(v.message);
 										
 										$(row).append(name).append(message);
