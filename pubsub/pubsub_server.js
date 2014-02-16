@@ -40,42 +40,41 @@ connection.on('ready', function () {
 			var message = msg;
 			io.sockets.emit(message.type, message.data);
 		})
+		
+		pubsub.subscribe('updatePresence', function(pubsub_name, params){
+			console.log('in updatePresence')
+			console.log(params.message);
+			var post_data = querystring.stringify({
+				'rooms' : JSON.stringify(params.rooms),
+				'users' : JSON.stringify(params.users)
+			});
+			//console.log(post_data);
+			//console.log(params.message)
+			
+			// An object of options to indicate where to post to
+			var post_options = {
+				host: 'localhost',
+				port: '80',
+				path: '/presence',
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded',
+					'Content-Length': post_data.length
+				}
+			};
+			// Set up the request
+			
+			var post_req = http.request(post_options, function(res) {
+				res.setEncoding('utf8');
+				res.on('data', function (chunk) {
+					console.log('Response: ' + chunk);
+				});
+			});
+			post_req.write(post_data);
+			post_req.end();
+		});
 
 		io.sockets.on('connection', function(socket){
-			
-			//var updatePresence = function(users, rooms){
-			pubsub.subscribe('updatePresence', function(pubsub_name, params){
-				console.log('in updatePresence')
-				console.log(params.message);
-				var post_data = querystring.stringify({
-					'rooms' : JSON.stringify(params.rooms),
-					'users' : JSON.stringify(params.users)
-				});
-				//console.log(post_data);
-				//console.log(params.message)
-				
-				// An object of options to indicate where to post to
-				var post_options = {
-					host: 'localhost',
-					port: '80',
-					path: '/presence',
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/x-www-form-urlencoded',
-						'Content-Length': post_data.length
-					}
-				};
-				// Set up the request
-				
-				var post_req = http.request(post_options, function(res) {
-					res.setEncoding('utf8');
-					res.on('data', function (chunk) {
-						console.log('Response: ' + chunk);
-					});
-				});
-				post_req.write(post_data);
-				post_req.end();
-			});
 			
 			socket.on('presence', function(data){
 				var socket_id = socket.id;
