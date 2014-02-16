@@ -10,6 +10,14 @@ class UserController extends Controller {
         {
             $this->createUser($name);
         }
+        else
+        {
+            $user = User::find(Session::get('id'));
+            if(!$user)
+            {
+                $this->createUser($name);
+            }
+        }
         return json_encode(array('status' => 'success'));
     }
     
