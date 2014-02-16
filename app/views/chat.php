@@ -39,8 +39,8 @@
 						var display_history = function()
 						{
 							$.get('<?php echo action("RoomController@getHistory"); ?>', {room_id:'<?php echo $room_id; ?>'}, function(data){
+								$('.chat-row.loading').remove();
 								if (data.message.length > 0) {
-									$('.chat-row.loading').remove();
 									$.each(data.message, function(k,v){
 										var local_date = moment(v.created_at.date + ' ' + v.created_at.timezone).zone(moment().zone()).format('YYYY-MM-DD h:mmA')
 										var row = $('<div>').addClass('col-md-12 chat-row');
