@@ -1,5 +1,5 @@
 #identify .modal-body{ padding-bottom: 0px; }
-.chat-window{ height: 100%; /*border: 1px solid #000;*/ }
+.chat-window{ position: relative; height: 100%; /*border: 1px solid #000;*/ }
 .chat-window h2{ margin: 0; padding: 0; font-size: 1em; margin-bottom: 5px; }
 .chat-window .chat{ height: 90%; margin-bottom: 5px; border: 1px solid #EDEEF0; }
 .chat-window > .message{ height: 10%; }
@@ -12,3 +12,31 @@
 .chat-row .message .glyphicon{ float: right; margin-right: 10px; }
 
 #rooms .acc-menu .active{ font-weight: bold; }
+.chat-window > h2{ display: inline-block; }
+.chat-options{
+    float: right;
+    margin-right: 10px;
+}
+.chat-options .users{ color: #78BA38; }
+.chat-options .users-list{
+    border: 1px solid #9f9f9f;
+    width: 20%;
+    position: absolute;
+    right: 0;
+    z-index: 90;
+    top: 25px;
+    background-color: #E6E7E8;
+    height: 90%;
+    overflow-y: scroll;
+}
+.chat-options .users-list ul, .chat-options .users-list ul li{
+    margin: 0; padding: 0;
+    list-style: none;
+}
+.chat-options .users-list ul li > a{
+    display: block;
+    padding: 2px 5px;
+}
+.chat-options .users-list ul li > a:hover{
+    background-color: #edeef0;
+}
