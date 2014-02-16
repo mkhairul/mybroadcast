@@ -600,24 +600,36 @@ window.onload = function()
 	
 	PubSub.subscribe('joinRoom', joinRoom)
 	
-	
-	// List the rooms
-	$('#rooms a').trigger('click');
-	$.get('<?php echo action("RoomController@listRooms"); ?>', function(data){
-		if (data) {
-			$('#rooms .acc-menu .loading').remove();
-			$.each(data, function(k,v){
-				//<li><a href="ui-typography.htm">Typography</a></li>
+	var listRooms = function(rooms)
+	{
+		$('#rooms .acc-menu .loading').remove();
+		var total = 0;
+		$.each(rooms, function(k,v){
+			if ($('#rooms .acc-menu li a[data-room="'+k+'"]').length == 0) {
 				$('#rooms .acc-menu').append(
 										$('<li/>').html(
 											$('<a/>').attr({href:'#','data-room':k}).html('#'+v)
 										)
 									  )
-				var total = parseInt($('#rooms .badge').html())+1
-				$('#rooms .badge').html(total)
-			})
+				total = parseInt($('#rooms .badge').html())+1
+			}
+		})
+		$('#rooms .badge').html(total)
+	}
+	PubSub.subscribe('listRooms', listRooms);
+	
+	
+	// List the rooms
+	$('#rooms a').trigger('click');
+	$.get('<?php echo action("RoomController@listRooms"); ?>', function(data){
+		if (data) {
+			PubSub.publish('listRooms', data);
 		}
 	},'json')
+	
+	socket.on('rooms', function(data){
+		PubSub.publish('listRooms', data.rooms)
+	})
 	
 	socket.on('presence', function (data) {
 		console.log('presence');

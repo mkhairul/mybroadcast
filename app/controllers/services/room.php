@@ -18,6 +18,8 @@ class RoomController extends BaseController {
 		$this->room_id = $room->id = uniqid();
 		$room->name = $this->room_name;
 		$room->save();
+		
+		$this->publishMessage('rooms', array('rooms' => $this->listRooms()));
 	}
     
     public function generateRoom()
