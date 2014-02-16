@@ -93,7 +93,7 @@
 						var update_presence = function(event_name, users)
 						{
 							var tmp_users = []
-							$.each($users, function(index, user)
+							$.each(users, function(index, user)
 							{
 								for(var key in user)
 								{						
