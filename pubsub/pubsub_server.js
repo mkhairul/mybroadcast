@@ -16,7 +16,7 @@ var users = {};
 var rooms = {};
 
 connection.on('ready', function () {
-	connection.exchange("updates", options={type:'fanout',durable:true}, function(exchange) {   
+	connection.exchange("updates", options={type:'fanout'}, function(exchange) {   
 		var sendMessage = function(exchange, payload) {
 			console.log('about to publish')
 			var encoded_payload = JSON.stringify(payload);
@@ -45,12 +45,13 @@ connection.on('ready', function () {
 			//var updatePresence = function(users, rooms){
 			pubsub.subscribe('updatePresence', function(pubsub_name, params){
 				console.log('in updatePresence')
+				console.log(params.message);
 				var post_data = querystring.stringify({
 					'rooms' : JSON.stringify(params.rooms),
 					'users' : JSON.stringify(params.users)
 				});
-				console.log(post_data);
-				console.log(params.message)
+				//console.log(post_data);
+				//console.log(params.message)
 				
 				// An object of options to indicate where to post to
 				var post_options = {

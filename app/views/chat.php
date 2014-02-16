@@ -79,7 +79,7 @@
                             return moment().format('h:mmA');
                         }
 						
-						function diff(A, B) {
+						var diff = function(A, B) {
 							return A.filter(function (a) {
 								return B.indexOf(a) == -1;
 							});
@@ -98,11 +98,11 @@
 							})
 							
 							// get the existing users
-							if (user_list.length == 0) {
-								$('.users-list [data-username]').each(function(){
-									$(this).attr('data-username')
-								})
-							}
+							// refresh the user list
+							user_list = []
+							$('.users-list [data-username]').each(function(){
+								user_list.push($(this).attr('data-username'));
+							})
 							
 							// remove users who are not in the latest presence
 							var missing = diff(user_list, tmp_users);
