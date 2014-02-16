@@ -66,6 +66,12 @@ class RoomController extends BaseController {
 		$user = User::take(1)->orderBy('created_at', 'desc')->find(Session::get('id'));
 		
 		$this->publishMessage($this->room_id, array('user' => '', 'message' => $user->name.' has joined the room'));
+		
+		$chat = new Chat;
+		$chat->message = $user->name.' has joined the room';
+		$chat->room_id = $this->room_id;
+		$chat->save();
+		
 		return $this->generateRoom();
 	}
 	
