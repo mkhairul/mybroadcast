@@ -120,6 +120,9 @@
 							var new_users = diff(tmp_users, user_list);
 							for(var i=0; i<new_users.length; i++)
 							{
+								if ($('.users-list ul li a[data-username="'+new_users[i]+'"]').length > 0) {
+									continue;
+								}
 								var list = $('<li/>');
 								var names = $('<a/>').attr('href', '#');
 								$(names).attr('data-username', new_users[i]).html(new_users[i]);
