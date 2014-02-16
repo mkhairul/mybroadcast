@@ -24,6 +24,17 @@ class RoomController extends BaseController {
     {
 		return View::make('chat', array('room_id' => $this->room_id));
     }
+	
+	public function getHistory()
+	{
+		$room_name = Input::get('room_name');
+		$room = Room::where('name', $this->room_name)->get()->first();
+		$room_name = $room->name;
+		
+		$total_rows = Chat::where('room_id', $room->id)->count();
+		$chat = Chat::take(50)->where('room_id', $room->id)->orderBy('created_at', 'desc')->get();
+		return Response::json(array('message' => $chat, 'total' => $total_rows), 200);
+	}
     
     public function joinRoom()
 	{
