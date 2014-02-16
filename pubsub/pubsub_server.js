@@ -39,7 +39,8 @@ connection.on('ready', function () {
 			pubsub.subscribe('broadcast_message', function(pubsub_name, msg){
 				console.log('trying to broadcast');
 				var message = msg;
-				socket.emit(message.type, message.data);
+				//socket.emit(message.type, message.data);
+				io.sockets.emit(message.type, message.data);
 			})
 			
 			//var updatePresence = function(users, rooms){
