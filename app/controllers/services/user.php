@@ -12,8 +12,8 @@ class UserController extends Controller {
         }
         else
         {
-            $user = User::find(Session::get('id'))->get();
-            if(!$user)
+            $user = User::where('id', Session::get('id'))->count();
+            if($user == 0)
             {
                 $this->createUser($name);
             }
