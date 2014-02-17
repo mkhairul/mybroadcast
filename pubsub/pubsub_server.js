@@ -1,5 +1,5 @@
 /*
- * sudo npm install amqp pubsub-js
+ * sudo npm install amqp pubsub-js querystring socket.io
  *
  */
 

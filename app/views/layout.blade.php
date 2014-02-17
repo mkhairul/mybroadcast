@@ -557,6 +557,8 @@
 <script type='text/javascript' src='assets/js/application.js'></script>
 <script type='text/javascript' src='assets/js/pubsub.js'></script>
 <script type='text/javascript' src='assets/js/moment.min.js'></script>
+<script type='text/javascript' src='assets/js/rasterizeHTML.allinone.js'></script>
+<script type='text/javascript' src="http://<?php echo Config::get('custom.amqp_host'); ?>:3001/erizo.js"></script>
 <script type="text/javascript" src="http://<?php echo Config::get('custom.server'); ?>:<?php echo Config::get('custom.socket_port'); ?>/socket.io/socket.io.js"></script>
 <script>
 var username = '';
@@ -564,40 +566,45 @@ var socket = io.connect('http://<?php echo Config::get('custom.server'); ?>:<?ph
 var default_room = 'lobby';
 window.onload = function()
 {
-	
-	$('#loading').modal({show: false, keyboard: false, backdrop: 'static'});
-	$('#identify').modal({show: true, keyboard: false, backdrop: 'static'});
-	$('#identify input').focus();
-	$('#identify form').submit(function(){ return false; })
-	$('#identify button').click(function(){
-	    username = $('#identify input').val();
-	    console.log(username);
-		PubSub.publish('joinRoom');
-		$('#identify').modal('hide');
-		$('#loading').modal('show');
-	})
-	$('#identify input').on('keypress', function(e){
-		var p = e.which;
-		if(p == 13)
-		{
+	<?php if (!Session::get('id')) { ?>
+		$('#loading').modal({show: false, keyboard: false, backdrop: 'static'});
+		$('#identify').modal({show: true, keyboard: false, backdrop: 'static'});
+		$('#identify input').focus();
+		$('#identify form').submit(function(){ return false; })
+		$('#identify button').click(function(){
 			username = $('#identify input').val();
 			console.log(username);
-			$.post('<?php echo action("UserController@identify"); ?>', {name:username}, function(data){
-				PubSub.publish('joinRoom');
-			},'json')
+			PubSub.publish('joinRoom');
 			$('#identify').modal('hide');
 			$('#loading').modal('show');
-		}
-	})
-
+		})
+		$('#identify input').on('keypress', function(e){
+			var p = e.which;
+			if(p == 13)
+			{
+				username = $('#identify input').val();
+				console.log(username);
+				$.post('<?php echo action("UserController@identify"); ?>', {name:username}, function(data){
+					PubSub.publish('joinRoom');
+				},'json')
+				$('#identify').modal('hide');
+				$('#loading').modal('show');
+			}
+		})
+	<?php }else{ ?>
+		$('#loading').modal({show: true, keyboard: false, backdrop: 'static'});
+		username = '<?php echo $name; ?>';
+	<?php } ?>
+	
 	var joinRoom = function(str){
 		console.log('joining room');
 		$.get('<?php echo action("RoomController@joinRoom"); ?>', {'room_name':default_room}, function(html){
 			$('.main-content').html(html);
 			$('#loading').modal('hide');
+		}).error(function(){
+			this();
 		})
 	}
-	
 	PubSub.subscribe('joinRoom', joinRoom)
 	
 	var listRooms = function(event_name, rooms)
@@ -650,6 +657,22 @@ window.onload = function()
 			}
 		})
 	});
+	
+	var thumbnail = function(event_name, room_id){
+		// eh, not so great. difficult to make this work.
+		var canvas = $('<canvas id="canvas" width="300" height="200" style="border: 1px solid black;"></canvas>')
+		var html_container = document.getElementById(room_id);
+		$.when($.get('assets/css/styles.min.css'), $.get('assets/css/general.css')).done(function(style, custom){
+			$(html_container).prepend($('<style>').html(style).html(custom))
+			var html = html_container.innerHTML;
+			rasterizeHTML.drawHTML(html, canvas, function(image){ $('.main-content').append(image); });
+		})
+	}
+	PubSub.subscribe('end-loadHistory', thumbnail);
+	
+	<?php if (Session::get('id')) { ?>
+		PubSub.publish('joinRoom');
+	<?php } ?>
 }
 </script>
 

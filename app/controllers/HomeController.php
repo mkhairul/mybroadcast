@@ -17,7 +17,13 @@ class HomeController extends BaseController {
 
 	public function showWelcome()
 	{
-		return View::make('main');
+		$name = '';
+		if(Session::get('id'))
+		{
+			$user = User::find(Session::get('id'))->first();
+			$name = $user->name;
+		}
+		return View::make('main', array('name' => $name));
 	}
 	
 	public function broadcast()

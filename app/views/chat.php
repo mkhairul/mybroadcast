@@ -55,6 +55,8 @@
 								// scroll to the bottom
 								var myDiv = $("#<?php echo $room_id; ?> .chat");
 								$(myDiv).scrollTop($('.chat-row', myDiv).length * 20);
+								
+								PubSub.publish('end-loadHistory', '<?php echo $room_id; ?>');
 							})
 						}
 						PubSub.subscribe('loadHistory', display_history);
