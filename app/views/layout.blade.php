@@ -117,7 +117,7 @@
 
         <ul class="nav navbar-nav pull-right toolbar">
         	<li class="dropdown">
-        		<a href="#" class="dropdown-toggle username" data-toggle="dropdown"><span class="hidden-xs">John McCartney <i class="fa fa-caret-down"></i></span><img src="assets/demo/avatar/dangerfield.png" alt="Dangerfield" /></a>
+        		<a href="#" class="dropdown-toggle username" data-toggle="dropdown"><span class="hidden-xs"><span class="username">John McCartney</span> <i class="fa fa-caret-down"></i></span><img src="assets/demo/avatar/dangerfield.png" alt="Dangerfield" /></a>
         		<ul class="dropdown-menu userinfo arrow">
         			<li class="username">
                         <a href="#">
@@ -284,7 +284,7 @@
                 <li><a href="index.htm"><i class="fa fa-home"></i> <span>Main</span></a></li>
 				<li><a href="#" class="start-broadcast"><i class="fa fa-pencil"></i> <span>Broadcast</span></a></li>
 				<li><a href="#" class="start-room"><i class="fa fa-pencil"></i> <span>Join Room</span></a></li>
-                <li id="rooms"><a href="javascript:;"><i class="fa fa-list-ol"></i> <span>Rooms</span> <span class="badge badge-indigo">0</span></a>
+                <li id="rooms"><a href="javascript:;"><i class="fa fa-bolt"></i> <span>Topics</span> <span class="badge badge-indigo">0</span></a>
                     <ul class='acc-menu'>
 						<li class="loading"><a href="#"><img src="assets/img/ajax-loader.gif" /> Loading.. </a></li>
                     </ul>
@@ -478,7 +478,8 @@
 					
 				</div>
 				<div class="row main-content">
-					
+					@yield('post')
+					@yield('display_post')
 				</div>
 			</div> <!-- container -->
 		</div> <!--wrap -->
@@ -566,6 +567,12 @@ var socket = io.connect('http://<?php echo Config::get('custom.server'); ?>:<?ph
 var default_room = 'lobby';
 window.onload = function()
 {
+	var displayUsername = function(event_name, username)
+	{
+		$('span.username').html(username)
+	}
+	PubSub.subscribe('username', displayUsername);
+
 	<?php if (!Session::get('id')) { ?>
 		$('#loading').modal({show: false, keyboard: false, backdrop: 'static'});
 		$('#identify').modal({show: true, keyboard: false, backdrop: 'static'});
@@ -585,7 +592,8 @@ window.onload = function()
 				username = $('#identify input').val();
 				console.log(username);
 				$.post('<?php echo action("UserController@identify"); ?>', {name:username}, function(data){
-					PubSub.publish('joinRoom');
+					//PubSub.publish('joinRoom');
+					PubSub.publish('username', username)
 				},'json')
 				$('#identify').modal('hide');
 				$('#loading').modal('show');
@@ -594,11 +602,16 @@ window.onload = function()
 	<?php }else{ ?>
 		$('#loading').modal({show: true, keyboard: false, backdrop: 'static'});
 		username = '<?php echo $name; ?>';
+		PubSub.publish('username', username)
+		$('#loading').modal('hide');
 	<?php } ?>
 	
-	var joinRoom = function(str){
+	var joinRoom = function(event_name, room_name){
+		if (!room_name) {
+			room = default_room
+		}
 		console.log('joining room');
-		$.get('<?php echo action("RoomController@joinRoom"); ?>', {'room_name':default_room}, function(html){
+		$.get('<?php echo action("RoomController@joinRoom"); ?>', {'room_name':room}, function(html){
 			$('.main-content').html(html);
 			$('#loading').modal('hide');
 		}).error(function(){
@@ -671,7 +684,7 @@ window.onload = function()
 	PubSub.subscribe('end-loadHistory', thumbnail);
 	
 	<?php if (Session::get('id')) { ?>
-		PubSub.publish('joinRoom');
+		//PubSub.publish('joinRoom');
 	<?php } ?>
 }
 </script>

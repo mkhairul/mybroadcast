@@ -42,3 +42,20 @@
 .chat-options .users-list ul li > a:hover{
     background-color: #edeef0;
 }
+
+.plain h4{ border-bottom: 1px solid #d2d3d6 }
+
+.post form{ font-size: 12px !important; width: 100%; margin: 0; }
+.post form textarea{ width: 100%; min-height: 75px; margin-bottom: 10px; }
+.post button{ }
+.post .topic{ margin-left: 5px; font-size: 2em; }
+
+.posts h4{ margin-top: 0; }
+.posts-container{
+    overflow: hidden;
+}
+.post-row{ padding: 5px 0; border: 1px solid #edeef0; overflow: hidden; margin-bottom: 5px;  }
+.post-row:hover, .post-row.active{ background-color: #d2d3d6; }
+.post-row .user-icon{ font-size: 2em; text-align: center;}
+.post-row ul{ list-style: none; padding: 0; margin: 0; }
+.post-row ul li{ display: inline-block; padding-right: 5px; }
