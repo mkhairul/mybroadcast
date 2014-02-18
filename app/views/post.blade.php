@@ -1,5 +1,5 @@
 <div class="col-md-3 col-sm-12 cols-xs-12 post">
-    <div class="info-tiles tiles-sky">
+    <div class="info-tiles tiles-sky new-post">
         <div class="tiles-heading">
             <div class="pull-left">New Post</div>
             <div class="pull-right"><i class="fa fa-envelope"></i></div>
@@ -11,12 +11,12 @@
                     <a href="#" alt="Topic"><i class="fa fa-bolt topic" alt="topic"></i></a>
                 </div>
                 <div class="pull-right">
-                    <button class="btn btn-primary">Post</button>
+                    <button type="button" class="btn btn-primary">Post</button>
                 </div>
             </form>
         </div>
     </div>
-    <div class="info-tiles tiles-danger">
+    <div class="info-tiles tiles-danger new-broadcast">
         <div class="tiles-heading">
             <div class="pull-left">New Broadcast</div>
             <div class="pull-right"><i class="fa fa-video-camera"></i></div>

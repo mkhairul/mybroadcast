@@ -559,6 +559,7 @@
 <script type='text/javascript' src='assets/js/pubsub.js'></script>
 <script type='text/javascript' src='assets/js/moment.min.js'></script>
 <script type='text/javascript' src='assets/js/rasterizeHTML.allinone.js'></script>
+<script type='text/javascript' src='assets/js/posts.js'></script>
 <script type='text/javascript' src="http://<?php echo Config::get('custom.amqp_host'); ?>:3001/erizo.js"></script>
 <script type="text/javascript" src="http://<?php echo Config::get('custom.server'); ?>:<?php echo Config::get('custom.socket_port'); ?>/socket.io/socket.io.js"></script>
 <script>
@@ -567,6 +568,10 @@ var socket = io.connect('http://<?php echo Config::get('custom.server'); ?>:<?ph
 var default_room = 'lobby';
 window.onload = function()
 {
+	PubSub.subscribe('username', function(){
+		Post({ input: $('.new-post textarea'), 'username':username, topics: ['mkhairul', 'woot'] })
+	})
+
 	var displayUsername = function(event_name, username)
 	{
 		$('span.username').html(username)
