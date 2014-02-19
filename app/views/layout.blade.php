@@ -569,7 +569,11 @@ var default_room = 'lobby';
 window.onload = function()
 {
 	PubSub.subscribe('username', function(){
-		Post({ input: $('.new-post textarea'), 'username':username, topics: ['mkhairul', 'woot'] })
+		var selfPost = new content.Post({
+									inputElem: $('.new-post textarea'),
+									displayElem: $('.posts .posts-container')
+								});
+		$('#loading').modal('hide');
 	})
 
 	var displayUsername = function(event_name, username)

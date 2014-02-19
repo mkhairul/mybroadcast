@@ -1,76 +1,56 @@
 (function($){
-    
-    var Post = window.Post = function(options){
-        var self = this
-        var defaultOptions = {
-            input: $('.post'),
-            url: '',
-            displayElem: $('.posts'),
-            username: '',
-            topics: []
-        }
-        
-        $('button', $(options.input).parent()).on('click', function(){
-            save();
-        })
-        
-        var set = function(options){
-            if (typeof options == 'object') {
-                self.options = $.extend(defaultOptions, options);
-            } else {
-                self.options = defaultOptions;
+    var content = window.content = {};
+    content.Post = (function(){
+        var postConstructor = function Post(options){
+            if (false === (this instanceof Post)) {
+                return new Post();
             }
-        }
-        set(options);
-        
-        var save = function(){
-            var message = $(options.input).val();
-            if (message == '') {
-                return;
+            var self = this;
+            var defaultOptions = {
+                inputElem: '',
+                url: '',
+                displayElem: '',
+                username: '',
+                topics: []
             }
-            $(options.input).val('')
-            /*
-            $.post(options.url, {'message':message}, function(data){
-                
-            },'json')
-            */
-            display(message);
-        }
-        
-        var display = function(param){
-            if (typeof(param) !== 'object') { message = param }
-            if (param.message) { message = param.message; }
-            if (param.username) { options.username = username; }
-            if (param.topics) { options.topics = topics; }
-            if (!options.topics) {
-                options.topics = new Array();
-                options.topics.push(options.username);
-            }
-            var row = $('<div>').addClass('post-row')
-            var user = $('<div>').addClass('user-icon col-md-1').html(
-                $('<i>').addClass('fa fa-user')
-            )
-            var content = $('<div>').addClass('col-md-11').append(
-                $('<div>').addClass('user').html(options.username)
-            ).append(
-                $('<div>').addClass('message').html(message)
-            )
-            var topic = $('<div>').addClass('topics').html($('<ul>'));
-            for (var i=0; i < options.topics.length; i++) {
-                $('ul', topic).append($('<li>').html($('<a>').attr('href', '#').html('#'+options.topics[i])))
-            }
+            this.options = options = $.extend(defaultOptions, options)
+            if (options.username === '') { options.username = username }
+            if (options.topics.length === 0) { options.topics.push(options.username); }
             
-            // AVENGERS ASSEMBLEEEEE
-            $(row).append(user).append($(content).append(topic))
-            $('.posts-container').prepend(row);
+            // Bind the "submit" button of the input/textarea element
+            $('button', $(options.inputElem).parent()).on('click', function(){
+                self.save();
+            })
+            
+            this.getOptions = function(){ return options; }
+            this.setOptions = function(param){ options = $.extend(options, param) }
         }
         
-        return {
-            save: save,
-            display: display,
-            set: set
+        postConstructor.prototype.save = function(){
+            var message = $(this.options.inputElem).val();
+            if (message === '') { return false; }
+            this.display();
         }
-    }
-    
+        
+        postConstructor.prototype.display = function(){
+            // Create the post row
+            var row = $('<div>').addClass('post-row').append(
+                $('<div>').addClass('user-icon col-md-1').html($('<i>').addClass('fa fa-user'))
+            ).append(
+                $('<div>').addClass('col-md-11').append($('<div>').addClass('user').html(this.options.username)).append($('<div>').addClass('message').html($(this.options.inputElem).val())).append($('<div>').addClass('topics').html($('<ul>')))
+            )
+            $(this.options.inputElem).val('')
+            
+            if (this.options.topics.length > 0) {
+                for (var i=0; i < this.options.topics.length; i++) {
+                    $('ul', row).append($('<li>').html($('<a>').attr('href', '#').html('#'+this.options.topics[i])))
+                }
+            }
+            $(this.options.displayElem).prepend(row);
+        }
+        
+        return postConstructor;
+        
+    }());
 })(jQuery)
 
