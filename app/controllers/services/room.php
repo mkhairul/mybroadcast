@@ -162,6 +162,26 @@ class RoomController extends BaseController {
 		return $this->respond->success()->json();
 	}
 	
+	public function postMessage()
+	{
+		$message = Input::get('message');
+		$topics = Input::get('topics');
+		if(!$message){ return $this->respond->fail()->json(); }
+		
+		if($topics === ""){ $topics = array(); }
+		
+		// Get all the hashtags in the message
+		//preg_match_all("/(#\w+)/", $message, $matches);
+		preg_match_all("/\B#\w*[a-zA-Z]+\w*/", $message, $matches);
+		foreach($matches[0] as $topic)
+		{
+			$topic = str_replace('#', '', $topic);
+			array_push($topics, $topic);
+		}
+		
+		return var_export($topics, true);
+	}
+	
 	public function sendMessage()
 	{
 		$message = Input::get('message');
