@@ -20,8 +20,15 @@ class HomeController extends BaseController {
 		$name = '';
 		if(Session::get('id'))
 		{
-			$user = User::find(Session::get('id'))->first();
-			$name = $user->name;
+			$user = User::find(Session::get('id'));
+			if($user)
+			{
+				$name = $user->name;
+			}
+			else
+			{
+				Session::forget('id');
+			}
 		}
 		return View::make('main', array('name' => $name));
 	}
