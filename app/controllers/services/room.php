@@ -171,15 +171,30 @@ class RoomController extends BaseController {
 		if($topics === ""){ $topics = array(); }
 		
 		// Get all the hashtags in the message
-		//preg_match_all("/(#\w+)/", $message, $matches);
 		preg_match_all("/\B#\w*[a-zA-Z]+\w*/", $message, $matches);
-		foreach($matches[0] as $topic)
+		if(count($matches[0]) > 0)
 		{
-			$topic = str_replace('#', '', $topic);
-			array_push($topics, $topic);
+			foreach($matches[0] as $topic)
+			{
+				$topic = str_replace('#', '', $topic);
+				array_push($topics, $topic);
+			}
 		}
 		
-		return var_export($topics, true);
+		// For each topics, create a room
+		foreach($topics as $topic)
+		{
+			$this->room_name = $topic;
+			$this->createRoom();
+		}
+		
+		$chat = new Chat;
+		$chat->user_id = Session::get('id');
+		$chat->message = $message;
+		$chat->topics = json_encode($topics);
+		$chat->save();
+		
+		return $this->respond->success()->json();
 	}
 	
 	public function sendMessage()
