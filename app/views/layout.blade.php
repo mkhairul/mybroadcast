@@ -117,7 +117,7 @@
 
         <ul class="nav navbar-nav pull-right toolbar">
         	<li class="dropdown">
-        		<a href="#" class="dropdown-toggle username" data-toggle="dropdown"><span class="hidden-xs"><span class="username">John McCartney</span> <i class="fa fa-caret-down"></i></span><img src="assets/demo/avatar/dangerfield.png" alt="Dangerfield" /></a>
+        		<a href="#" class="dropdown-toggle username" data-toggle="dropdown"><span class="hidden-xs"><span class="username"></span> <i class="fa fa-caret-down"></i></span><img src="assets/demo/avatar/dangerfield.png" alt="Dangerfield" /></a>
         		<ul class="dropdown-menu userinfo arrow">
         			<li class="username">
                         <a href="#">
