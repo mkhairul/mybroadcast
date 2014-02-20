@@ -43,6 +43,9 @@
     background-color: #edeef0;
 }
 
+.tiles-body .input{ margin-bottom: 10px; }
+
+
 .plain h4{ border-bottom: 1px solid #d2d3d6 }
 
 .post form{ font-size: 12px !important; width: 100%; margin: 0; }

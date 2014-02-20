@@ -6,7 +6,7 @@
         </div>
         <div class="tiles-body">
             <form>
-                <textarea name="post" placeholder="Enter your message.."></textarea>
+                <textarea name="post" class="form-control" placeholder="Enter your message.."></textarea>
                 <div class="pull-left">
                     <a href="#" alt="Topic"><i class="fa fa-bolt topic" alt="topic"></i></a>
                 </div>
@@ -23,7 +23,10 @@
         </div>
         <div class="tiles-body">
             <form>
-                <textarea name="post" placeholder="Topics.."></textarea>
+                <div class="input">
+                    <textarea name="post" class="form-control" placeholder="Description.."></textarea>
+                    <input type="text" class="form-control" placeholder="Topics.." name="topics">
+                </div>
                 <div class="pull-left">
                     <a href="#" alt="Topic"><i class="fa fa-bolt topic" alt="topic"></i></a>
                 </div>
