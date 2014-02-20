@@ -281,7 +281,7 @@
                     </form>
                 </li>
                 <li class="divider"></li>
-                <li><a href="index.htm"><i class="fa fa-home"></i> <span>Main</span></a></li>
+                <li><a href="#"><i class="fa fa-home"></i> <span>Main</span></a></li>
 				<li><a href="#" class="start-broadcast"><i class="fa fa-pencil"></i> <span>Broadcast</span></a></li>
 				<li><a href="#" class="start-room"><i class="fa fa-pencil"></i> <span>Join Room</span></a></li>
                 <li id="rooms"><a href="javascript:;"><i class="fa fa-bolt"></i> <span>Topics</span> <span class="badge badge-indigo">0</span></a>
