@@ -25,6 +25,10 @@ Route::get('/identify', 'UserController@identify');
 Route::post('/sendMessage', 'RoomController@sendMessage');
 Route::get('/sendMessage', 'RoomController@sendMessage');
 Route::get('/listRooms', 'RoomController@listRooms');
+Route::post('/post', array(
+                            'as' => 'post', 
+                            'uses' => 'RoomController@postMessage'
+                          ));
 
 Route::post('/presence', 'RoomController@updatePresence');
 Route::get('/presence', 'RoomController@presence');

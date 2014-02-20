@@ -558,7 +558,7 @@
 <script type='text/javascript' src='assets/js/application.js'></script>
 <script type='text/javascript' src='assets/js/pubsub.js'></script>
 <script type='text/javascript' src='assets/js/moment.min.js'></script>
-<script type='text/javascript' src='assets/js/rasterizeHTML.allinone.js'></script>
+<script type='text/javascript' src='assets/js/twitter-text.js'></script>
 <script type='text/javascript' src='assets/js/posts.js'></script>
 <script type='text/javascript' src="http://<?php echo Config::get('custom.amqp_host'); ?>:3001/erizo.js"></script>
 <script type="text/javascript" src="http://<?php echo Config::get('custom.server'); ?>:<?php echo Config::get('custom.socket_port'); ?>/socket.io/socket.io.js"></script>
@@ -570,6 +570,7 @@ window.onload = function()
 {
 	PubSub.subscribe('username', function(){
 		var selfPost = new content.Post({
+									url: '<?php echo route("post"); ?>',
 									inputElem: $('.new-post textarea'),
 									displayElem: $('.posts .posts-container')
 								});
@@ -590,7 +591,7 @@ window.onload = function()
 		$('#identify button').click(function(){
 			username = $('#identify input').val();
 			console.log(username);
-			PubSub.publish('joinRoom');
+			//PubSub.publish('joinRoom');
 			$('#identify').modal('hide');
 			$('#loading').modal('show');
 		})
