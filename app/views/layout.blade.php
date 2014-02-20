@@ -653,13 +653,11 @@ window.onload = function()
 	$('#rooms a').trigger('click');
 	$.get('<?php echo action("RoomController@listRooms"); ?>', function(data){
 		if (data) {
-			console.log(data);
 			PubSub.publish('listRooms', data);
 		}
 	},'json')
 	
 	socket.on('rooms', function(data){
-		console.log(data.rooms);
 		PubSub.publish('listRooms', data.rooms)
 	})
 	

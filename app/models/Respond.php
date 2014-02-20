@@ -16,19 +16,19 @@ class Respond{
         return $this;
     }
     
-    public function message($msg)
+    public function message($msg, $key_name="message")
     {
-        if(array_key_exists('message', $this->response))
+        if(array_key_exists($key_name, $this->response))
         {
-            $tmp = $this->response['message'];
+            $tmp = $this->response[$key_name];
             $messages = array();
             $messages[] = $tmp;
             $messages[] = $msg;
-            $this->response['message'] = $messages;
+            $this->response[$key_name] = $messages;
         }
         else
         {
-            $this->response['message'] = $messages;
+            $this->response[$key_name][] = $msg;
         }
         return $this;
     }

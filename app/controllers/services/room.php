@@ -14,12 +14,21 @@ class RoomController extends BaseController {
 	
 	public function createRoom()
 	{
-		$room = new Room;
-		$this->room_id = $room->id = uniqid();
-		$room->name = $this->room_name;
-		$room->save();
+		$room_exists = Room::where('name', $this->room_name)->get()->first();
+		if(!$room_exists)
+		{
+			$room = new Room;
+			$this->room_id = $room->id = uniqid();
+			$room->name = $this->room_name;
+			$room->save();
+		}
+		else
+		{
+			$room = $room_exists;
+			$this->room_id = $room->id;
+		}
 		
-		$this->publishMessage('rooms', array('rooms' => $this->listRooms()));
+		$this->publishMessage('rooms', array('rooms' => $this->listRooms(0)));
 	}
     
     public function generateRoom()
@@ -78,10 +87,16 @@ class RoomController extends BaseController {
 		return $this->generateRoom();
 	}
 	
-	public function listRooms()
+	public function listRooms($json=1)
 	{
 		$rooms = Room::take(50)->get()->lists('name','id');
-		return Response::json($rooms, 200);
+		if($json)
+		{
+			return Response::json($rooms, 200);
+		}
+		{
+			return $rooms;
+		}
 	}
     
     public function roomExists()
