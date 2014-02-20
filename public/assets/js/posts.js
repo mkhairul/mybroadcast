@@ -16,6 +16,8 @@
             this.options = options = $.extend(defaultOptions, options)
             if (options.username === '') { options.username = username }
             if (options.topics.length === 0) { options.topics.push(options.username); }
+            // Automatically add topic of yourself on your posts
+            if (options.topics.indexOf(options.username) < 0) { options.topics.push(options.username); }
             
             // Bind the "submit" button of the input/textarea element
             $('button', $(options.inputElem).parent()).on('click', function(){
