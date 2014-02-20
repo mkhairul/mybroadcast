@@ -16,6 +16,7 @@ class CreateChat extends Migration {
             $table->increments('id');
             $table->integer('user_id');
             $table->string('room_id', 255);
+            $table->longText('topics');
             $table->longText('message');
             $table->timestamps();
         });
@@ -28,7 +29,7 @@ class CreateChat extends Migration {
 	 */
 	public function down()
 	{
-		//
+		Schema::dropIfExists('chat');
 	}
 
 }

@@ -27,7 +27,7 @@ class CreatePresence extends Migration {
 	 */
 	public function down()
 	{
-		//
+		Schema::dropIfExists('presence');
 	}
 
 }
