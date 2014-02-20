@@ -641,7 +641,7 @@ window.onload = function()
 											$('<a/>').attr({href:'#','data-room':k}).html('#'+v)
 										)
 									  )
-				total = parseInt($('#rooms .badge').html())+1
+				total += parseInt($('#rooms .badge').html())+1
 			}
 		})
 		$('#rooms .badge').html(total)
