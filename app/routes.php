@@ -30,6 +30,10 @@ Route::post('/post', array(
                           ));
 Route::match(array('GET', 'POST'), '/presence', 'RoomController@updatePresence');
 Route::get('/history', 'RoomController@getHistory');
+Route::get('/getMessage', array(
+                            'as' => 'getMessage', 
+                            'uses' => 'RoomController@getMessage'
+                          ));
 
 Route::get('/service/message', 'ServiceController@message');
 Route::get('/service/joinRoom', 'ServiceController@joinRoom');

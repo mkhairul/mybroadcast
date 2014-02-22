@@ -63,6 +63,24 @@ class RoomController extends BaseController {
 		}
 		return Response::json(array('message' => $response, 'total' => $total_rows), 200);
 	}
+	
+	public function getMessage()
+	{
+		$user = User::find(Session::get('id'));
+		if($user)
+		{
+			$user->first();
+			$chat = Chat::leftJoin('users', 'users.id', '=', 'chat.user_id')
+					->where('topics', 'LIKE', '%'.$user->name.'%')
+					->select('users.name', 'chat.message', 'chat.created_at', 'chat.topics')
+					->get();
+		}
+		else
+		{
+			$chat = array();
+		}
+		return Response::json($chat, 200);
+	}
     
     public function joinRoom()
 	{

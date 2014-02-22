@@ -53,21 +53,48 @@
             this.display(message);
         }
         
-        postConstructor.prototype.display = function(message){
+        postConstructor.prototype.display = function(param){
+            var username, topics;
+            if (typeof param === 'object') {
+                username = param.username
+                topics = param.topics
+                message = param.message
+            }
+            else
+            {
+                message = param
+            }
+            if (typeof username === 'undefined') { username = this.options.username; }
+            if (typeof topics === 'undefined') { topics = this.options.topics; }
+            
             // Create the post row
             var row = $('<div>').addClass('post-row').append(
                 $('<div>').addClass('user-icon col-md-1').html($('<i>').addClass('fa fa-user'))
             ).append(
-                $('<div>').addClass('col-md-11').append($('<div>').addClass('user').html(this.options.username)).append($('<div>').addClass('message').html(message)).append($('<div>').addClass('topics').html($('<ul>')))
+                $('<div>').addClass('col-md-11').append($('<div>').addClass('user').html(username)).append($('<div>').addClass('message').html(message)).append($('<div>').addClass('topics').html($('<ul>')))
             )
             $(this.options.inputElem).val('')
             
-            if (this.options.topics.length > 0) {
-                for (var i=0; i < this.options.topics.length; i++) {
-                    $('ul', row).append($('<li>').html($('<a>').attr('href', '#').html('#'+this.options.topics[i])))
+            if (topics.length > 0) {
+                for (var i=0; i < topics.length; i++) {
+                    $('ul', row).append($('<li>').html($('<a>').attr('href', '#').html('#'+topics[i])))
                 }
             }
             $(this.options.displayElem).prepend(row);
+        }
+        
+        postConstructor.prototype.load = function(url){
+            var self = this;
+            $.get(url, function(data){
+                $.each(data, function(k,v){
+                    self.display({
+                            username: v.name,
+                            topics: JSON.parse(v.topics),
+                            message: v.message
+                        });
+                })
+                $('.loading', self.options.displayElem).hide();
+            },'json')
         }
         
         return postConstructor;
