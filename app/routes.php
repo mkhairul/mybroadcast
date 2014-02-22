@@ -20,18 +20,15 @@ Route::get('/wut', function()
 Route::get('/', 'HomeController@showWelcome');
 Route::get('/start-broadcast', 'HomeController@broadcast');
 Route::get('/joinRoom', 'RoomController@joinRoom');
-Route::post('/identify', 'UserController@identify');
-Route::get('/identify', 'UserController@identify');
-Route::post('/sendMessage', 'RoomController@sendMessage');
-Route::get('/sendMessage', 'RoomController@sendMessage');
+
+Route::match(array('GET', 'POST'), '/identify', 'UserController@identify');
+Route::match(array('GET', 'POST'), '/sendMessage', 'RoomController@sendMessage');
 Route::get('/listRooms', 'RoomController@listRooms');
 Route::post('/post', array(
                             'as' => 'post', 
                             'uses' => 'RoomController@postMessage'
                           ));
-
-Route::post('/presence', 'RoomController@updatePresence');
-Route::get('/presence', 'RoomController@presence');
+Route::match(array('GET', 'POST'), '/presence', 'RoomController@updatePresence');
 Route::get('/history', 'RoomController@getHistory');
 
 Route::get('/service/message', 'ServiceController@message');
