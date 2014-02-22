@@ -573,7 +573,7 @@ window.onload = function()
 									url: '<?php echo route("post"); ?>',
 									inputElem: $('.new-post textarea'),
 									displayElem: $('.posts .posts-container')
-								});
+								}).load('<?php echo route("getMessage"); ?>');
 		$('#loading').modal('hide');
 	})
 
