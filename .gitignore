@@ -3,6 +3,7 @@
 composer.phar
 .DS_Store
 Thumbs.db
+/app/config/custom.php
 /pubsub/config.json
 /app/config/database.php
 mybroadcast.komodoproject
