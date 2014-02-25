@@ -31,9 +31,10 @@
                     <a href="#" alt="Topic"><i class="fa fa-bolt topic" alt="topic"></i></a>
                 </div>
                 <div class="pull-right">
-                    <button class="btn btn-brown">Start</button>
+                    <button class="btn btn-brown" type="button">Start</button>
                 </div>
             </form>
         </div>
     </div>
+    <div id="myVideo" style="width:320px; height: 240px;"></div>
 </div>
